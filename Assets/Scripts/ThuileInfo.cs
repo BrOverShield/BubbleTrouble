@@ -25,7 +25,7 @@ public class ThuileInfo : MonoBehaviour {
     {
 		
 	}
-    void updateme()
+    public void updateme()
     {
         coo = cooX.ToString() + "," + cooY.ToString();
         this.transform.position = new Vector3(cooX, 0, cooY);

@@ -8,28 +8,42 @@ public class MapGenerator : MonoBehaviour {
     public GameObject EnemyPrefab;
     public GameObject squareThuile;
     public GameObject mytimer;
-    public Text timertext;
-    public Text counttext;
-    public Text pickuptxt;
-    public Light lighte;
-    public GameObject DestroyOnStartClic;
-    public Slider sliderx;
-    public Slider slidery;
-    public Slider sliderDiff;
     public GameObject thuilePrefab;
     public GameObject ChestPrefab;
     public GameObject Player;
     public GameObject PickupPrefab;
+    public GameObject DestroyOnStartClic;
+
+    public Text timertext;
+    public Text counttext;
+    public Text pickuptxt;
+
+    public Light lighte;
+    public Light lightsupport;
+
+    public Slider sliderx;
+    public Slider slidery;
+    public Slider sliderDiff;
+    public Slider MountainRadiusSlider;
+    public Slider MountainHeightSlider;
+
+    public InputField MountainCooInputField;
+
     public int XSize=10;
     public int YSize = 10;
     public int ProbOfChestatstart = 10;
-    public Light lightsupport;
+    public int MountainRadius = 5;
+    public int mountainHeight = 5;
+
+    public string MountainCoo="10,10";
+
     bool squarebool=false;
     bool lanscapebool = true;
     bool realsquarebool=false;
+
     GameObject Thuile;
     GameObject P;
-
+    Dictionary<string, ThuileInfo> CooToThuileInfo = new Dictionary<string, ThuileInfo>();
 
     void Start ()
     {
@@ -56,15 +70,20 @@ public class MapGenerator : MonoBehaviour {
 	
 	void Update ()
     {
-       XSize = (int)sliderx.value;
-        YSize = (int)slidery.value;
+         XSize = (int)sliderx.value;
+         YSize = (int)slidery.value;
         ProbOfChestatstart = (int)sliderDiff.value;
         GeneratingEnemy(1f, 5f);
+        MountainRadius =(int)MountainRadiusSlider.value;
+        mountainHeight = (int)MountainHeightSlider.value;
+        MountainCoo = MountainCooInputField.text;
+        
     }
     public void OnClicStart()
     {
 
         GenerateMap(XSize, YSize, ProbOfChestatstart);
+        MakeMountainAt(CooToThuileInfo["10,10"],5,5);
         Instantiate(lighte);
        // Instantiate(lightsupport);
         P = Instantiate(Player, new Vector3(2, 2, 2), Quaternion.identity);
@@ -76,7 +95,7 @@ public class MapGenerator : MonoBehaviour {
         GameObject T = Instantiate(mytimer);
         T.GetComponent<timer>().timerText = timertext;
         Destroy(DestroyOnStartClic);
-        
+       
     }
     public void GenerateMap(int mapLongeur, int mapLargeur, int ProbOfChest)
     {
@@ -112,8 +131,15 @@ public class MapGenerator : MonoBehaviour {
                 TI.pickupPrefab = PickupPrefab;
                 TI.hasPickup = generatingPickup(2);
                 makeWall(TI);
+                CooToThuileInfo.Add(makeCoo(x,y),TI);
+                
+
             }
         }
+    }
+    string makeCoo(int x,int y)
+    {
+        return (x.ToString()+","+y.ToString());
     }
     public void makeWall(ThuileInfo info)
     {
@@ -132,6 +158,26 @@ public class MapGenerator : MonoBehaviour {
             info.HasChest = false;
         }
     }
+    public void MakeMountain()
+    {
+        print(CooToThuileInfo[MountainCoo].coo);
+        MakeMountainAt(CooToThuileInfo[MountainCoo], mountainHeight, MountainRadius);
+    }
+    public void MakeMountainAt(ThuileInfo info,float Height,int Radius)
+    {
+        
+        for (int x = info.cooX-Radius; x < info.cooX+Radius; x++)
+        {
+            for (int y = info.cooX-Radius; y < info.cooX+Radius; y++)
+            {
+                //pour tout ce qui est dans ce rayon rajoute de la hauteur
+                
+                CooToThuileInfo[makeCoo(x, y)].Hauteur += Height;
+                CooToThuileInfo[makeCoo(x, y)].updateme();
+            }
+        }
+    }
+    
    public  bool generatingChest(int prob)
     {
         int roll = Random.Range(0, 100);
