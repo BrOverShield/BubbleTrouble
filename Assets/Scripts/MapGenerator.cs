@@ -43,7 +43,10 @@ public class MapGenerator : MonoBehaviour {
 
     GameObject Thuile;
     GameObject P;
+
     Dictionary<string, ThuileInfo> CooToThuileInfo = new Dictionary<string, ThuileInfo>();
+
+    List<ThuileInfo> ListeDeThuileInfo = new List<ThuileInfo>();
 
     void Start ()
     {
@@ -132,6 +135,7 @@ public class MapGenerator : MonoBehaviour {
                 TI.hasPickup = generatingPickup(2);
                 makeWall(TI);
                 CooToThuileInfo.Add(makeCoo(x,y),TI);
+                ListeDeThuileInfo.Add(TI);
                 
 
             }
@@ -163,6 +167,15 @@ public class MapGenerator : MonoBehaviour {
         print(CooToThuileInfo[MountainCoo].coo);
         MakeMountainAt(CooToThuileInfo[MountainCoo], mountainHeight, MountainRadius);
     }
+    public void MakeRandomMountain()
+    {
+        int roll = Random.Range(0, ListeDeThuileInfo.Count);
+        if (ListeDeThuileInfo[roll]!=null)
+        {
+            MakeMountainAt(ListeDeThuileInfo[roll], Random.Range(0, 10), Random.Range(0, 10));
+        }
+        
+    }
     public void MakeMountainAt(ThuileInfo info,float Height,int Radius)
     {
         
@@ -171,9 +184,12 @@ public class MapGenerator : MonoBehaviour {
             for (int y = info.cooX-Radius; y < info.cooX+Radius; y++)
             {
                 //pour tout ce qui est dans ce rayon rajoute de la hauteur
-                
-                CooToThuileInfo[makeCoo(x, y)].Hauteur += Height;
-                CooToThuileInfo[makeCoo(x, y)].updateme();
+                if(CooToThuileInfo[makeCoo(x, y)]!=null)
+                {
+                    CooToThuileInfo[makeCoo(x, y)].Hauteur += Height;
+                    CooToThuileInfo[makeCoo(x, y)].updateme();
+                }
+               
             }
         }
     }
