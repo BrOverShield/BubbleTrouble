@@ -194,9 +194,14 @@ public class MapGenerator : MonoBehaviour {
                 }
             }
         }
-        if (squarebool||lanscapebool)
+        if (squarebool)
         {
             info.gameObject.transform.localScale = new Vector3(Random.Range(0, 15), Random.Range(0, 15), Random.Range(0, 15));
+        }
+        if(lanscapebool)
+        {
+            int roll = Random.Range(0, 50);
+            info.gameObject.transform.localScale = new Vector3(roll, roll, roll);
         }
         
     }
