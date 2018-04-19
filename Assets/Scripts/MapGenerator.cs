@@ -196,7 +196,7 @@ public class MapGenerator : MonoBehaviour {
         }
         if (squarebool)
         {
-            info.gameObject.transform.localScale = new Vector3(Random.Range(0, mountainHeight), Random.Range(0, mountainHeight), Random.Range(0, mountainHeight));
+            info.gameObject.transform.localScale = new Vector3(Random.Range(0, MountainRadius), Random.Range(0, mountainHeight), Random.Range(0, MountainRadius));
         }
         if(lanscapebool)
         {
