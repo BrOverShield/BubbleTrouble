@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private int greenCount = 0;
     private int chestCount = 0;
 
+    public Slider TaillePlayerSlider;
     // Use this for initialization
     void Start()
     {
@@ -42,7 +43,11 @@ public class PlayerController : MonoBehaviour
             Vector3 mouvement = new Vector3(inputHorizontal, 0.0f, inputVertical);
             rb.AddForce(mouvement);
         }
-
+        if(TaillePlayerSlider!=null)
+        {
+            transform.localScale = new Vector3(1 / TaillePlayerSlider.value, 1 / TaillePlayerSlider.value, 1 / TaillePlayerSlider.value);
+        }
+        
 
         //if(Vector3.Distance(this.transform.position,pickuper.transform.position)<=0.2)
         //{

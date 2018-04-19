@@ -7,6 +7,9 @@ using UnityEngine.UI;
 //TODO: Base building
 //TODO: recolte de recources et systeme magasin
 //TODO: Make Mountains Walls
+//TODO: Mountain Maker Set Enable/Disable bouton
+//TODO: Corriger le noms des fontions et bool square par SoftLandscape
+//TODO: Decouverte des plataux sous marins et affichage des proprietes de l<ile decouverte.
 
 public class MapGenerator : MonoBehaviour {
     public GameObject EnemyPrefab;
@@ -30,6 +33,7 @@ public class MapGenerator : MonoBehaviour {
     public Slider sliderDiff;
     public Slider MountainRadiusSlider;
     public Slider MountainHeightSlider;
+    public Slider PlayerTailleSlider;
 
     public InputField MountainCooInputField;
 
@@ -96,6 +100,7 @@ public class MapGenerator : MonoBehaviour {
         P = Instantiate(Player, new Vector3(2, 2, 2), Quaternion.identity);
         P.GetComponent<PlayerController>().countText = counttext;
         P.GetComponent<PlayerController>().countPickUp = pickuptxt;
+        P.GetComponent<PlayerController>().TaillePlayerSlider = PlayerTailleSlider;
         Camera.main.GetComponent<camera>().player = P;
         Camera.main.transform.position = new Vector3(2, 7, -1);
         Camera.main.GetComponent<camera>().offset = new Vector3(2, 7, -1) - P.transform.position;
