@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//TODO: Controle de sousmarin
+//TODO: Base building
+//TODO: recolte de recources et systeme magasin
+//TODO: Make Mountains Walls
 
 public class MapGenerator : MonoBehaviour {
     public GameObject EnemyPrefab;
@@ -134,6 +138,7 @@ public class MapGenerator : MonoBehaviour {
                 TI.pickupPrefab = PickupPrefab;
                 TI.hasPickup = generatingPickup(2);
                 makeWall(TI);
+                //makeMountainsWalls(TI);
                 CooToThuileInfo.Add(makeCoo(x, y), TI);
                 ListeDeThuileInfo.Add(TI);
 
@@ -157,6 +162,16 @@ public class MapGenerator : MonoBehaviour {
             {
                 info.Hauteur = 10;
             }
+
+            info.hasPickup = false;
+            info.HasChest = false;
+        }
+    }
+    void makeMountainsWalls(ThuileInfo info)
+    {
+        if (info.cooX == 0 || info.cooY == 0 || info.cooX == XSize - 1 || info.cooY == YSize - 1)
+        {
+            MakeMountainAt(info, 20, 20);
 
             info.hasPickup = false;
             info.HasChest = false;
