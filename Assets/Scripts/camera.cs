@@ -12,6 +12,7 @@ public class camera : MonoBehaviour {
     public float speed = 0f;
     bool onetotwo;
     bool twotoone;
+    bool islock=true;
 	// Use this for initialization
 	void Start ()
 	{
@@ -49,10 +50,22 @@ public class camera : MonoBehaviour {
     // Update is called once per frame
     void LateUpdate ()
 	{
-        if (player != null)
+        if (player != null&&islock)
         {
             transform.position = player.transform.position + offset;
         }
+        if(!islock)
+        {
+            offset = this.transform.position - player.transform.position;
+        }
         
 	}
+    public void LockUnlock()
+    {
+        islock = !islock;
+    }
+    public void MoveTowardPlayer()
+    {
+        this.transform.position = Vector3.Lerp(this.transform.position,player.transform.position,0.1f);
+    }
 }

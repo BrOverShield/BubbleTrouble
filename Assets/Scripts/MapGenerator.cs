@@ -10,6 +10,7 @@ using UnityEngine.UI;
 //TODO: Mountain Maker Set Enable/Disable bouton
 //TODO: Corriger le noms des fontions et bool square par SoftLandscape
 //TODO: Decouverte des plataux sous marins et affichage des proprietes de l<ile decouverte.
+//TODO: Refaire le script de controle Camera
 
 public class MapGenerator : MonoBehaviour {
     public GameObject EnemyPrefab;
