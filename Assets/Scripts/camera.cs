@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class camera : MonoBehaviour {
 
 	public GameObject player;
+    public Slider RotationSlider;
 
 	public Vector3 offset;
     public Color color1;
@@ -56,7 +58,9 @@ public class camera : MonoBehaviour {
         }
         if(!islock)
         {
+            float Xrotation = RotationSlider.value;
             offset = this.transform.position - player.transform.position;
+            this.transform.rotation = Quaternion.Euler(Xrotation, 0f, 0f);
         }
         
 	}
