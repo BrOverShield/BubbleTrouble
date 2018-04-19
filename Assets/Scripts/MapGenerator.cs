@@ -29,17 +29,17 @@ public class MapGenerator : MonoBehaviour {
 
     public InputField MountainCooInputField;
 
-    public int XSize=10;
+    public int XSize = 10;
     public int YSize = 10;
     public int ProbOfChestatstart = 10;
     public int MountainRadius = 5;
     public int mountainHeight = 5;
 
-    public string MountainCoo="10,10";
+    public string MountainCoo = "10,10";
 
-    bool squarebool=false;
+    bool squarebool = false;
     bool lanscapebool = true;
-    bool realsquarebool=false;
+    bool realsquarebool = false;
 
     GameObject Thuile;
     GameObject P;
@@ -48,11 +48,11 @@ public class MapGenerator : MonoBehaviour {
 
     List<ThuileInfo> ListeDeThuileInfo = new List<ThuileInfo>();
 
-    void Start ()
+    void Start()
     {
-      //  GenerateMap(XSize,YSize,ProbOfChestatstart);
-	}
-	public void square()
+        //  GenerateMap(XSize,YSize,ProbOfChestatstart);
+    }
+    public void square()
     {
         squarebool = true;
         lanscapebool = false;
@@ -70,25 +70,25 @@ public class MapGenerator : MonoBehaviour {
         lanscapebool = false;
         realsquarebool = true;
     }
-	
-	void Update ()
+
+    void Update()
     {
-         XSize = (int)sliderx.value;
-         YSize = (int)slidery.value;
+        XSize = (int)sliderx.value;
+        YSize = (int)slidery.value;
         ProbOfChestatstart = (int)sliderDiff.value;
         GeneratingEnemy(1f, 5f);
-        MountainRadius =(int)MountainRadiusSlider.value;
+        MountainRadius = (int)MountainRadiusSlider.value;
         mountainHeight = (int)MountainHeightSlider.value;
         MountainCoo = MountainCooInputField.text;
-        
+
     }
     public void OnClicStart()
     {
 
         GenerateMap(XSize, YSize, ProbOfChestatstart);
-        MakeMountainAt(CooToThuileInfo["10,10"],5,5);
+        MakeMountainAt(CooToThuileInfo["10,10"], 5, 5);
         Instantiate(lighte);
-       // Instantiate(lightsupport);
+        // Instantiate(lightsupport);
         P = Instantiate(Player, new Vector3(2, 2, 2), Quaternion.identity);
         P.GetComponent<PlayerController>().countText = counttext;
         P.GetComponent<PlayerController>().countPickUp = pickuptxt;
@@ -98,7 +98,7 @@ public class MapGenerator : MonoBehaviour {
         GameObject T = Instantiate(mytimer);
         T.GetComponent<timer>().timerText = timertext;
         Destroy(DestroyOnStartClic);
-       
+
     }
     public void GenerateMap(int mapLongeur, int mapLargeur, int ProbOfChest)
     {
@@ -106,58 +106,58 @@ public class MapGenerator : MonoBehaviour {
         {
             for (int y = 0; y < mapLongeur; y++)
             {
-                if(squarebool||lanscapebool)
+                if (squarebool || lanscapebool)
                 {
                     Thuile = Instantiate(thuilePrefab);
                 }
-                if(realsquarebool)
+                if (realsquarebool)
                 {
                     Thuile = Instantiate(squareThuile);
                 }
-                
+
                 ThuileInfo TI = Thuile.GetComponent<ThuileInfo>();
                 TI.cooX = x;
                 TI.cooY = y;
-                if(squarebool||realsquarebool)
+                if (squarebool || realsquarebool)
                 {
                     TI.Hauteur = Random.Range(0f, 1f);
                     TI.multiplicator = 1f;
                 }
-                if(lanscapebool)
+                if (lanscapebool)
                 {
                     TI.Hauteur = Random.Range(0f, 4f);
                     TI.multiplicator = 0.25f;
                 }
-                
+
                 TI.ChestPrefab = ChestPrefab;
                 TI.HasChest = generatingChest(10);
                 TI.pickupPrefab = PickupPrefab;
                 TI.hasPickup = generatingPickup(2);
                 makeWall(TI);
-                CooToThuileInfo.Add(makeCoo(x,y),TI);
+                CooToThuileInfo.Add(makeCoo(x, y), TI);
                 ListeDeThuileInfo.Add(TI);
-                
+
 
             }
         }
     }
-    string makeCoo(int x,int y)
+    string makeCoo(int x, int y)
     {
-        return (x.ToString()+","+y.ToString());
+        return (x.ToString() + "," + y.ToString());
     }
     public void makeWall(ThuileInfo info)
     {
-        if(info.cooX==0||info.cooY==0||info.cooX==XSize-1||info.cooY==YSize-1)
+        if (info.cooX == 0 || info.cooY == 0 || info.cooX == XSize - 1 || info.cooY == YSize - 1)
         {
-            if(realsquarebool)
+            if (realsquarebool)
             {
                 info.Hauteur = 5;
             }
-            if(lanscapebool||squarebool)
+            if (lanscapebool || squarebool)
             {
                 info.Hauteur = 10;
             }
-            
+
             info.hasPickup = false;
             info.HasChest = false;
         }
@@ -170,28 +170,35 @@ public class MapGenerator : MonoBehaviour {
     public void MakeRandomMountain()
     {
         int roll = Random.Range(0, ListeDeThuileInfo.Count);
-        if (ListeDeThuileInfo[roll]!=null)
+        if (ListeDeThuileInfo[roll] != null)
         {
             MakeMountainAt(ListeDeThuileInfo[roll], Random.Range(0, 10), Random.Range(0, 10));
         }
-        
+
     }
-    public void MakeMountainAt(ThuileInfo info,float Height,int Radius)
+    public void MakeMountainAt(ThuileInfo info, float Height, int Radius)
     {
-        
-        for (int x = info.cooX-Radius; x < info.cooX+Radius; x++)
+        if (realsquarebool)
         {
-            for (int y = info.cooX-Radius; y < info.cooX+Radius; y++)
+            for (int x = info.cooX - Radius; x < info.cooX + Radius; x++)
             {
-                //pour tout ce qui est dans ce rayon rajoute de la hauteur
-                if(CooToThuileInfo[makeCoo(x, y)]!=null)
+                for (int y = info.cooX - Radius; y < info.cooX + Radius; y++)
                 {
-                    CooToThuileInfo[makeCoo(x, y)].Hauteur += Height;
-                    CooToThuileInfo[makeCoo(x, y)].updateme();
+                    //pour tout ce qui est dans ce rayon rajoute de la hauteur
+                    if (CooToThuileInfo[makeCoo(x, y)] != null)
+                    {
+                        CooToThuileInfo[makeCoo(x, y)].Hauteur += Height;
+                        CooToThuileInfo[makeCoo(x, y)].updateme();
+                    }
+
                 }
-               
             }
         }
+        if (squarebool||lanscapebool)
+        {
+            info.gameObject.transform.localScale = new Vector3(Random.Range(0, 15), Random.Range(0, 15), Random.Range(0, 15));
+        }
+        
     }
     
    public  bool generatingChest(int prob)
