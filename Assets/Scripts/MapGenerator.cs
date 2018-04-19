@@ -172,7 +172,7 @@ public class MapGenerator : MonoBehaviour {
         int roll = Random.Range(0, ListeDeThuileInfo.Count);
         if (ListeDeThuileInfo[roll] != null)
         {
-            MakeMountainAt(ListeDeThuileInfo[roll], Random.Range(0, 10), Random.Range(0, 10));
+            MakeMountainAt(ListeDeThuileInfo[roll], Random.Range(0, mountainHeight), Random.Range(0, MountainRadius));
         }
 
     }
@@ -196,11 +196,11 @@ public class MapGenerator : MonoBehaviour {
         }
         if (squarebool)
         {
-            info.gameObject.transform.localScale = new Vector3(Random.Range(0, 15), Random.Range(0, 15), Random.Range(0, 15));
+            info.gameObject.transform.localScale = new Vector3(Random.Range(0, mountainHeight), Random.Range(0, mountainHeight), Random.Range(0, mountainHeight));
         }
         if(lanscapebool)
         {
-            int roll = Random.Range(0, 50);
+            int roll = Random.Range(0, mountainHeight);
             info.gameObject.transform.localScale = new Vector3(roll, roll, roll);
         }
         
