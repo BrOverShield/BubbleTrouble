@@ -15,13 +15,15 @@ public class camera : MonoBehaviour {
     bool onetotwo;
     bool twotoone;
     bool islock=true;
+    public bool isSubmarine=true;
 	// Use this for initialization
 	void Start ()
 	{
         GetComponent<Camera>().backgroundColor = color1;
-        if (player!=null)
+        if (player!=null&&isSubmarine)
         {
-           // offset = new Vector3(2, 7, 0) - player.transform.position;
+            offset = this.transform.position - player.transform.position;
+            // offset = new Vector3(2, 7, 0) - player.transform.position;
         }
 		
 	}
@@ -42,11 +44,11 @@ public class camera : MonoBehaviour {
         }
         if (onetotwo)
         {
-            speed += 0.005f;
+            speed += 0.001f;
         }
         if (twotoone)
         {
-            speed -= 0.005f;
+            speed -= 0.001f;
         }
     }
     // Update is called once per frame

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//TODO: Minimap
 //TODO: Controle de sousmarin
 //TODO: Base building
 //TODO: recolte de recources et systeme magasin
 //TODO: Make Mountains Walls
 //TODO: Mountain Maker Set Enable/Disable bouton
-//TODO: Corriger le noms des fontions et bool square par SoftLandscape
+//TODO: Corriger le noms des bool square par SoftLandscape
 //TODO: Decouverte des plataux sous marins et affichage des proprietes de l<ile decouverte.
 //TODO: Refaire le script de controle Camera
 
@@ -61,13 +62,13 @@ public class MapGenerator : MonoBehaviour {
     {
         //  GenerateMap(XSize,YSize,ProbOfChestatstart);
     }
-    public void square()
+    public void Landscapesoft()
     {
         squarebool = true;
         lanscapebool = false;
         realsquarebool = false;
     }
-    public void landscap()
+    public void landscapHard()
     {
         squarebool = false;
         lanscapebool = true;
@@ -103,6 +104,7 @@ public class MapGenerator : MonoBehaviour {
         P.GetComponent<PlayerController>().countPickUp = pickuptxt;
         P.GetComponent<PlayerController>().TaillePlayerSlider = PlayerTailleSlider;
         Camera.main.GetComponent<camera>().player = P;
+        Camera.main.GetComponent<camera>().isSubmarine = false;
         Camera.main.transform.position = new Vector3(2, 7, -1);
         Camera.main.GetComponent<camera>().offset = new Vector3(2, 7, -1) - P.transform.position;
         GameObject T = Instantiate(mytimer);
@@ -140,7 +142,7 @@ public class MapGenerator : MonoBehaviour {
                 }
 
                 TI.ChestPrefab = ChestPrefab;
-                TI.HasChest = generatingChest(10);
+                TI.HasChest = generatingChest(ProbOfChest);
                 TI.pickupPrefab = PickupPrefab;
                 TI.hasPickup = generatingPickup(2);
                 makeWall(TI);
