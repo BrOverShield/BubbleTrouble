@@ -12,10 +12,12 @@ using UnityEngine.UI;
 //TODO: Corriger le noms des bool square par SoftLandscape
 //TODO: Decouverte des plataux sous marins et affichage des proprietes de l<ile decouverte.
 //TODO: Refaire le script de controle Camera
-
+//TODO: Raycast Player
+//TODO: Tunel,stalactites,gouffres,bords falaises,empirer le landscape
 
     //!!!!!!!!!! TODO: Je n<ajoute pas les informations du plateaux a la creation de la map mais a sa destruction; 
-    //lorsque je range la map je range tout dans des listes de thuileInfo et chestInfo!!!!!!!!!!!!!
+    //lorsque je range la map je range tout dans des listes de thuileInfo et chestInfo!!!!!!!!!!!!! OU MIEUX!!!!
+    // DES LISTES DE GAMEOBJECT POUR CHAQUE GAMEOBJECTS INSTANTIERS ET QUAND JE RECONSTRUIT LA MAP ET FAIT SIMPLEMENT LES REINSTANTIER
 
 public class MapGenerator : MonoBehaviour {
     public GameObject EnemyPrefab;
