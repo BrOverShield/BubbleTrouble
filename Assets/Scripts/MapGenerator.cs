@@ -13,6 +13,10 @@ using UnityEngine.UI;
 //TODO: Decouverte des plataux sous marins et affichage des proprietes de l<ile decouverte.
 //TODO: Refaire le script de controle Camera
 
+
+    //!!!!!!!!!! TODO: Je n<ajoute pas les informations du plateaux a la creation de la map mais a sa destruction; 
+    //lorsque je range la map je range tout dans des listes de thuileInfo et chestInfo!!!!!!!!!!!!!
+
 public class MapGenerator : MonoBehaviour {
     public GameObject EnemyPrefab;
     public GameObject squareThuile;
@@ -110,7 +114,7 @@ public class MapGenerator : MonoBehaviour {
         GameObject T = Instantiate(mytimer);
         T.GetComponent<timer>().timerText = timertext;
         Destroy(DestroyOnStartClic);
-
+        //TODO: Ajouter cette map au plateaux
     }
     public void GenerateMap(int mapLongeur, int mapLargeur, int ProbOfChest)
     {

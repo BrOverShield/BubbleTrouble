@@ -21,7 +21,8 @@ public class Exploration : MonoBehaviour
     public Text LatitudeText;
     public Text ProfondeurText;
 
-    
+    List<Plateau> Plateaux = new List<Plateau>();
+    public Dictionary<string, Plateau> CooToPlateau = new Dictionary<string, Plateau>();
 	void Start ()
     {
         MG = FindObjectOfType<MapGenerator>();
