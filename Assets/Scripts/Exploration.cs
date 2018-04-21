@@ -8,16 +8,16 @@ public class Exploration : MonoBehaviour
    
 
     
-    //Explore cree la map
-    //skip cherche un autre plateau
+    
+    
 
     //Lerp de deplacement
     //la minimap montrera une portion de la map
     //systeme chaud froid scanneur pour chercher les plateaux
         
 
-    public int Longitude=0;//coox
-    public int Latitude=0;//cooy
+    public int Longitude;//coox
+    public int Latitude;//cooy
     public int DestinationLongitude=0;
     public int DestinationLatitude=0;
 
@@ -38,7 +38,7 @@ public class Exploration : MonoBehaviour
     public Text InfoIleText;
 
     public List<Plateau> Plateaux = new List<Plateau>();
-    public Dictionary<string, Plateau> CooToPlateau = new Dictionary<string, Plateau>();
+    public Dictionary<string, Plateau> CooToPlateau = new Dictionary<string,Plateau>();
     public Dictionary<string, Button> CootoMapSquare = new Dictionary<string, Button>();
 	void Start ()
     {

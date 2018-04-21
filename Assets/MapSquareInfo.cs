@@ -33,7 +33,7 @@ public class MapSquareInfo : MonoBehaviour
         E = FindObjectOfType<Exploration>();
         if(E.CooToPlateau.ContainsKey(GM.makeCoo(cooX,cooY)))
         {
-            print("Yo I have a plateau");
+            
             myPlateau = E.CooToPlateau[GM.makeCoo(cooX,cooY)];
         }
         
@@ -46,16 +46,19 @@ public class MapSquareInfo : MonoBehaviour
 	}
     public void ShowPlateau()
     {
-        E.InfoIleText.text = "";
-        if(myPlateau!=null)
+        if (E.CooToPlateau.ContainsKey(GM.makeCoo(cooX, cooY)))
         {
-            print("Jte montre ma shnell");
+            
+            myPlateau = E.CooToPlateau[GM.makeCoo(cooX, cooY)];
+        }
+        E.InfoIleText.text = "";
+        
+        if (myPlateau!=null)
+        {
+            
             E.InfoIleText.text = "Info: " + "\n" + "coordones: "+myPlateau.Coo + "\n" + "Taille: "+myPlateau.Size + "\n" + "Type: "+myPlateau.TypeName + "\n" + "Montagnes: " + "\n" + "Ressources: "+myPlateau.ChestProb + "\n" + "Danger: "+myPlateau.Danger;
         }
-        if(myPlateau==null)
-        {
-            print("Je suis fauche man");
-        }
+        
     }
 	public void movingToHere()
     {

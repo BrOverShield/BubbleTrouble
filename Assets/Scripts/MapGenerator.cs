@@ -10,11 +10,12 @@ using UnityEngine.UI;
 //TODO: Refaire le script de controle Camera
 //TODO: Raycast Player
 //TODO: Tunel,stalactites,gouffres,bords falaises,empirer le landscape
+
+
 //TODO: Retour sous marin et reconstruction de map
-
-
-//TODO: Decouverte des plataux sous marins et affichage des proprietes de l<ile decouverte.
 //TODO: ajouter montagnes
+    //TODO: SI STATE 2 enable explore genre si je suis a une coordonnes de state 2
+    //Explore vas soit generer la map ou la reconstituer
 
 public class MapGenerator : MonoBehaviour {
     public GameObject EnemyPrefab;
@@ -173,13 +174,18 @@ public class MapGenerator : MonoBehaviour {
         MakeMountainAt(CooToThuileInfo["10,10"], 5, 5);
         P.GetComponent<PlayerController>().TaillePlayerSlider = PlayerTailleSlider;
     }
+    public Plateau NewPlateau;
     public void GenerateMap(int mapLongeur, int mapLargeur, int ProbOfChest,int Type,int Dangerzone)
     {
-        Plateau NewPlateau = new Plateau(exploration.Longitude,exploration.Latitude,mapLargeur,ProbOfChest,Type,Dangerzone);//cree le plateau
+        NewPlateau = new Plateau(exploration.Longitude,exploration.Latitude,mapLargeur,ProbOfChest,Type,Dangerzone);//cree le plateau
         exploration.Plateaux.Add(NewPlateau);//ajoute a la liste de plateaux de exploration
         exploration.CooToPlateau.Add(makeCoo(exploration.Longitude, exploration.Latitude), NewPlateau);//ajoute coordones au dictionaire coo to plateau
-        print("Je viens d<ajouter le plateau au dictionaire man: "+makeCoo(exploration.Longitude,exploration.Latitude));
-
+        print("Je viens d<ajouter le plateau au dictionaire man aux coordones suivantes : "+makeCoo(exploration.Longitude,exploration.Latitude));
+        print("Il est fucking la: "+ exploration.CooToPlateau[makeCoo(exploration.Longitude,exploration.Latitude)]);
+        if(NewPlateau!=null)
+        {
+            print("NewPlateau nest pas null");
+        }
         DefineTypeFromInt(Type);
         for (int x = 0; x < mapLargeur; x++)
         {
