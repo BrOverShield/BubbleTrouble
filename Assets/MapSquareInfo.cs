@@ -19,11 +19,15 @@ public class MapSquareInfo : MonoBehaviour
     public Plateau myPlateau;
 
     public Canvas Map;
-
+    
     
     public Material ExploredMat;
     public Material UnexploredMat;
     public Material HasPlateauMat;
+
+    public Color Red;
+    public Color Green;
+    public Color Blue;
 
     Exploration E;
     MapGenerator GM;
@@ -55,11 +59,42 @@ public class MapSquareInfo : MonoBehaviour
         
         if (myPlateau!=null)
         {
-            
-            E.InfoIleText.text = "Info: " + "\n" + "coordones: "+myPlateau.Coo + "\n" + "Taille: "+myPlateau.Size + "\n" + "Type: "+myPlateau.TypeName + "\n" + "Montagnes: " + "\n" + "Ressources: "+myPlateau.ChestProb + "\n" + "Danger: "+myPlateau.Danger;
+            GM.IsDiscoverd = true;
+            E.InfoIleText.text = coo + "\n" + "Info: " + "\n" + "coordones: "+myPlateau.Coo + "\n" + "Taille: "+myPlateau.Size + "\n" + "Type: "+myPlateau.TypeName + "\n" + "Montagnes: " + "\n" + "Ressources: "+myPlateau.ChestProb + "\n" + "Danger: "+myPlateau.Danger;
+            E.ExploreButton.GetComponent<Image>().material.color = Blue;
         }
-        
+        if(myPlateau==null)
+        {
+            if(state==2)
+            {
+                GM.IsDiscoverd = false;
+                E.InfoIleText.text = coo + "\n" + "Info:" + "\n" + "Plateau Innexplore";
+                E.ExploreButton.enabled = true;
+                E.ExploreButton.GetComponent<Image>().material.color = Green;
+            }
+            if(state==1)
+            {
+                GM.IsDiscoverd = false;
+                E.InfoIleText.text = coo + "\n" + "Info:" + "\n" + "Que de l'eau, aucun plateau par ici";
+                E.ExploreButton.enabled = false;
+                E.ExploreButton.GetComponent<Image>().material.color=Red;
+                E.ActionText.text = "En recherche de plateau sous-marin";
+            }
+            if (state == 0)
+            {
+                GM.IsDiscoverd = false;
+                E.InfoIleText.text = coo + "\n" + "Info:" + "\n" + "Cette partie de l'ocean est innexplore";
+                E.ExploreButton.enabled = false;
+                E.ExploreButton.GetComponent<Image>().material.color = Red;
+                E.ActionText.text = "En recherche de plateau sous-marin";
+            }
+        }
+        if(state==2)
+        {
+            E.ActionText.text = "Plateau sous-marin Trouve";
+        }
     }
+    
 	public void movingToHere()
     {
         E.DestinationLongitude = cooX;

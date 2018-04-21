@@ -14,8 +14,8 @@ using UnityEngine.UI;
 
 //TODO: Retour sous marin et reconstruction de map
 //TODO: ajouter montagnes
-    //TODO: SI STATE 2 enable explore genre si je suis a une coordonnes de state 2
-    //Explore vas soit generer la map ou la reconstituer
+    
+    
 
 public class MapGenerator : MonoBehaviour {
     public GameObject EnemyPrefab;
@@ -57,6 +57,7 @@ public class MapGenerator : MonoBehaviour {
     bool HardLandscapebool = true;
     bool realsquarebool = false;
     bool Stalagmitesbool = false;
+    public bool IsDiscoverd = false;
 
     GameObject Thuile;
     GameObject P;
@@ -145,13 +146,20 @@ public class MapGenerator : MonoBehaviour {
         //int Size = Random.Range(10, 200);
         int Size = 100;
         ProbOfChestatstart = Random.Range(1, 11);
-        GenerateMap(Size, Size, ProbOfChestatstart,RandomMapType(),RandomDanger());  
+        
         PlayerSet();
         CameraSet();
         Destroy(DestroyOnStartClic);
         //GameObject T = Instantiate(mytimer);
         //T.GetComponent<timer>().timerText = timertext;
-
+        if(IsDiscoverd==false)
+        {
+            GenerateMap(Size, Size, ProbOfChestatstart, RandomMapType(), RandomDanger());
+        }
+        if(IsDiscoverd)
+        {
+            RegenerateMap(exploration.CooToPlateau[makeCoo(exploration.Longitude,exploration.Latitude)]);
+        }
 
     }
     public void PlayerSet()
@@ -173,6 +181,10 @@ public class MapGenerator : MonoBehaviour {
     {
         MakeMountainAt(CooToThuileInfo["10,10"], 5, 5);
         P.GetComponent<PlayerController>().TaillePlayerSlider = PlayerTailleSlider;
+    }
+    public void RegenerateMap(Plateau plateau)
+    {
+
     }
     public Plateau NewPlateau;
     public void GenerateMap(int mapLongeur, int mapLargeur, int ProbOfChest,int Type,int Dangerzone)
@@ -260,10 +272,7 @@ public class MapGenerator : MonoBehaviour {
             Dangermax = 5f;
         }
     }
-    public void RegenerateMap()
-    {
-
-    }
+    
     public string makeCoo(int x, int y)
     {
         return (x.ToString() + "," + y.ToString());

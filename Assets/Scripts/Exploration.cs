@@ -31,11 +31,13 @@ public class Exploration : MonoBehaviour
 
     public Canvas Map;
     public Button MapSquare;
+    public Button ExploreButton;
 
     public Text LongitudeText;
     public Text LatitudeText;
     public Text ProfondeurText;
     public Text InfoIleText;
+    public Text ActionText;
 
     public List<Plateau> Plateaux = new List<Plateau>();
     public Dictionary<string, Plateau> CooToPlateau = new Dictionary<string,Plateau>();
