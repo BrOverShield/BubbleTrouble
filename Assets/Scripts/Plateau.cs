@@ -13,21 +13,45 @@ public class Plateau
     public int NumberOfMountains;
     public int MountainsRadiusRange;
     public int MountainsHeightRange;
+    public int Danger;
     
     public bool HasMountains;
 
     public string Coo;
+    public string TypeName;
 
     public List<GameObject> Thuiles = new List<GameObject>();
 
-	public Plateau(int cooX,int cooY,int taille,int Recources)
+	public Plateau(int cooX,int cooY,int taille,int Recources,int type,int danger)
     {
         CooLongitude = cooX;
         CooLatitude = cooY;
         Size = taille;
         ChestProb = Recources;
+        Type = type;
+        TypeName = DefineTypeNameFromInt(type);
+        Danger = danger;
     }
-    
+    public string DefineTypeNameFromInt(int n)
+    {
+        if(n==1)
+        {
+            return "Volcanique Leger";
+        }
+        if (n == 2)
+        {
+            return "Volcanique Fort";
+        }
+        if (n == 3)
+        {
+            return "Roche Sedimentaire";
+        }
+        if (n == 4)
+        {
+            return "Stalagmites";
+        }
+        else return "Inconnue";
+    }
     //Ce plateau doit contenir toutes les informations necessaires pour construire la meme map plusieurs fois.
     //donc, list de gameobjects thuiles.
 }

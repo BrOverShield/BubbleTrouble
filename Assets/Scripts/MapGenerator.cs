@@ -6,14 +6,15 @@ using UnityEngine.UI;
 //TODO: Minimap
 //TODO: Base building
 //TODO: recolte de recources et systeme magasin
-//TODO: Decouverte des plataux sous marins et affichage des proprietes de l<ile decouverte.
+
 //TODO: Refaire le script de controle Camera
 //TODO: Raycast Player
 //TODO: Tunel,stalactites,gouffres,bords falaises,empirer le landscape
 //TODO: Retour sous marin et reconstruction de map
+
+
+//TODO: Decouverte des plataux sous marins et affichage des proprietes de l<ile decouverte.
 //TODO: ajouter montagnes
-   
-    
 
 public class MapGenerator : MonoBehaviour {
     public GameObject EnemyPrefab;
@@ -46,6 +47,8 @@ public class MapGenerator : MonoBehaviour {
     public int ProbOfChestatstart = 10;
     public int MountainRadius = 5;
     public int mountainHeight = 5;
+    public float Dangermin;
+    public float Dangermax;
 
     public string MountainCoo = "10,10";
 
@@ -99,7 +102,7 @@ public class MapGenerator : MonoBehaviour {
     }
     public int RandomMapType()
     {
-        return Random.Range(1, 4);
+        return Random.Range(1, 5);
     }
     public void DefineTypeFromInt(int type)
     {
@@ -120,15 +123,20 @@ public class MapGenerator : MonoBehaviour {
             stalagmites();
         }
     }
+    public int RandomDanger()
+    {
+        return Random.Range(1, 6);
+    }
     void Update()
     {
+        /*//editorMode
         XSize = (int)sliderx.value;
         YSize = (int)slidery.value;
-        ProbOfChestatstart = (int)sliderDiff.value;
-        GeneratingEnemy(1f, 5f);
+        ProbOfChestatstart = (int)sliderDiff.value;   
         MountainRadius = (int)MountainRadiusSlider.value;
         mountainHeight = (int)MountainHeightSlider.value;
-        MountainCoo = MountainCooInputField.text;
+        MountainCoo = MountainCooInputField.text;*/
+        GeneratingEnemy(Dangermin, Dangermax);
 
     }
     public void OnClicStart()
@@ -136,7 +144,7 @@ public class MapGenerator : MonoBehaviour {
         //int Size = Random.Range(10, 200);
         int Size = 100;
         ProbOfChestatstart = Random.Range(1, 11);
-        GenerateMap(Size, Size, ProbOfChestatstart,RandomMapType());  
+        GenerateMap(Size, Size, ProbOfChestatstart,RandomMapType(),RandomDanger());  
         PlayerSet();
         CameraSet();
         Destroy(DestroyOnStartClic);
@@ -165,11 +173,12 @@ public class MapGenerator : MonoBehaviour {
         MakeMountainAt(CooToThuileInfo["10,10"], 5, 5);
         P.GetComponent<PlayerController>().TaillePlayerSlider = PlayerTailleSlider;
     }
-    public void GenerateMap(int mapLongeur, int mapLargeur, int ProbOfChest,int Type)
+    public void GenerateMap(int mapLongeur, int mapLargeur, int ProbOfChest,int Type,int Dangerzone)
     {
-        Plateau NewPlateau = new Plateau(exploration.Longitude,exploration.Latitude,mapLargeur,ProbOfChest);//cree le plateau
+        Plateau NewPlateau = new Plateau(exploration.Longitude,exploration.Latitude,mapLargeur,ProbOfChest,Type,Dangerzone);//cree le plateau
         exploration.Plateaux.Add(NewPlateau);//ajoute a la liste de plateaux de exploration
         exploration.CooToPlateau.Add(makeCoo(exploration.Longitude, exploration.Latitude), NewPlateau);//ajoute coordones au dictionaire coo to plateau
+        print("Je viens d<ajouter le plateau au dictionaire man: "+makeCoo(exploration.Longitude,exploration.Latitude));
 
         DefineTypeFromInt(Type);
         for (int x = 0; x < mapLargeur; x++)
@@ -203,7 +212,7 @@ public class MapGenerator : MonoBehaviour {
                     TI.Hauteur = Random.Range(0f, 16f);
                     TI.multiplicator = 1/16f;
                 }
-
+                DefineDanger(Dangerzone);
                 TI.ChestPrefab = ChestPrefab;
                 TI.HasChest = generatingChest(ProbOfChest);
                 TI.pickupPrefab = PickupPrefab;
@@ -216,7 +225,39 @@ public class MapGenerator : MonoBehaviour {
             }
         }
     }
-    
+    public void DefineDanger(int D)
+    {
+        if(D==1)
+        {
+            
+            Dangermin = 30f;
+            Dangermax = 60f;
+        }
+        if(D==2)
+        {
+            Dangermin = 20f;
+            Dangermax = 40f;
+        }
+        if(D==3)
+        {
+            Dangermin = 10f;
+            Dangermax = 30f;
+        }
+        if (D == 4)
+        {
+            Dangermin = 5f;
+            Dangermax = 15f;
+        }
+        if (D == 5)
+        {
+            Dangermin = 1f;
+            Dangermax = 5f;
+        }
+    }
+    public void RegenerateMap()
+    {
+
+    }
     public string makeCoo(int x, int y)
     {
         return (x.ToString() + "," + y.ToString());

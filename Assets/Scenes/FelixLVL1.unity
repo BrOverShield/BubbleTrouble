@@ -5203,6 +5203,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1038798834}
     m_Modifications:
+    - target: {fileID: 114217389669783736, guid: 7047df30678bac74dbac5b9de2df7bcf,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 224651345286124672, guid: 7047df30678bac74dbac5b9de2df7bcf,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -5412,6 +5417,21 @@ Prefab:
         type: 2}
       propertyPath: m_Colors.m_HighlightedColor.b
       value: 0.7607844
+      objectReference: {fileID: 0}
+    - target: {fileID: 114217389669783736, guid: 7047df30678bac74dbac5b9de2df7bcf,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 441138371}
+    - target: {fileID: 114217389669783736, guid: 7047df30678bac74dbac5b9de2df7bcf,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: ShowPlateau
+      objectReference: {fileID: 0}
+    - target: {fileID: 114217389669783736, guid: 7047df30678bac74dbac5b9de2df7bcf,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7047df30678bac74dbac5b9de2df7bcf, type: 2}
@@ -5655,6 +5675,17 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1764519800}
         m_MethodName: Moving
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 441138371}
+        m_MethodName: ShowPlateau
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10301,6 +10332,8 @@ MonoBehaviour:
   ProbOfChestatstart: 10
   MountainRadius: 5
   mountainHeight: 5
+  Dangermin: 0
+  Dangermax: 0
   MountainCoo: 10,10
   exploration: {fileID: 0}
 --- !u!4 &1764519799
@@ -10340,6 +10373,7 @@ MonoBehaviour:
   LongitudeText: {fileID: 312234567}
   LatitudeText: {fileID: 477862299}
   ProfondeurText: {fileID: 382095152}
+  InfoIleText: {fileID: 1922664996}
 --- !u!1 &1774169832
 GameObject:
   m_ObjectHideFlags: 0
@@ -11184,8 +11218,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -538, y: 236}
-  m_SizeDelta: {x: 160, y: 200}
+  m_AnchoredPosition: {x: -468, y: 236}
+  m_SizeDelta: {x: 300, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1922664996
 MonoBehaviour:

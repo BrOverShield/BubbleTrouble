@@ -31,17 +31,32 @@ public class MapSquareInfo : MonoBehaviour
     {
         GM = FindObjectOfType<MapGenerator>();
         E = FindObjectOfType<Exploration>();
-        if(E.CooToPlateau.ContainsKey(coo))
+        if(E.CooToPlateau.ContainsKey(GM.makeCoo(cooX,cooY)))
         {
-            myPlateau = E.CooToPlateau[coo];
+            print("Yo I have a plateau");
+            myPlateau = E.CooToPlateau[GM.makeCoo(cooX,cooY)];
         }
-       
+        
 
         this.transform.localPosition = new Vector3(cooX*51,cooY*51,0);
         this.GetComponentInChildren<Text>().text = GM.makeCoo(cooX, cooY);
         RollForPlateau();
         definemycolor();
+        
 	}
+    public void ShowPlateau()
+    {
+        E.InfoIleText.text = "";
+        if(myPlateau!=null)
+        {
+            print("Jte montre ma shnell");
+            E.InfoIleText.text = "Info: " + "\n" + "coordones: "+myPlateau.Coo + "\n" + "Taille: "+myPlateau.Size + "\n" + "Type: "+myPlateau.TypeName + "\n" + "Montagnes: " + "\n" + "Ressources: "+myPlateau.ChestProb + "\n" + "Danger: "+myPlateau.Danger;
+        }
+        if(myPlateau==null)
+        {
+            print("Je suis fauche man");
+        }
+    }
 	public void movingToHere()
     {
         E.DestinationLongitude = cooX;

@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class Exploration : MonoBehaviour
 {
- 
+   
+
+    
     //Explore cree la map
     //skip cherche un autre plateau
 
@@ -33,6 +35,7 @@ public class Exploration : MonoBehaviour
     public Text LongitudeText;
     public Text LatitudeText;
     public Text ProfondeurText;
+    public Text InfoIleText;
 
     public List<Plateau> Plateaux = new List<Plateau>();
     public Dictionary<string, Plateau> CooToPlateau = new Dictionary<string, Plateau>();
@@ -124,6 +127,7 @@ public class Exploration : MonoBehaviour
             InfoOfMySquare.definemycolor();
         }
     }
+    
     public void ShowHideMap()
     {
         Map.enabled=!Map.enabled;
