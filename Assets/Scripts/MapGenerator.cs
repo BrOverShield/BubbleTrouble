@@ -15,6 +15,7 @@ using UnityEngine.UI;
 //TODO: Raycast Player
 //TODO: Tunel,stalactites,gouffres,bords falaises,empirer le landscape
 
+    //TODO: placer les plateaux dans la map;
    
     // DES LISTES DE GAMEOBJECT POUR CHAQUE GAMEOBJECTS INSTANTIERS ET QUAND JE RECONSTRUIT LA MAP ET FAIT SIMPLEMENT LES REINSTANTIER
 
@@ -136,7 +137,8 @@ public class MapGenerator : MonoBehaviour {
     }
     public void OnClicStart()
     {
-        int Size = Random.Range(10, 200);
+        //int Size = Random.Range(10, 200);
+        int Size = 100;
         ProbOfChestatstart = Random.Range(1, 11);
         GenerateMap(Size, Size, ProbOfChestatstart,RandomMapType());  
         PlayerSet();
@@ -180,11 +182,11 @@ public class MapGenerator : MonoBehaviour {
             {
                 if (SoftLandscapebool || HardLandscapebool||Stalagmitesbool)
                 {
-                    Thuile = Instantiate(thuilePrefab);
+                    Thuile = Instantiate(thuilePrefab,this.transform);
                 }
                 if (realsquarebool)
                 {
-                    Thuile = Instantiate(squareThuile);
+                    Thuile = Instantiate(squareThuile,this.transform);
                 }
 
                 ThuileInfo TI = Thuile.GetComponent<ThuileInfo>();
@@ -219,7 +221,7 @@ public class MapGenerator : MonoBehaviour {
         }
     }
     
-    string makeCoo(int x, int y)
+    public string makeCoo(int x, int y)
     {
         return (x.ToString() + "," + y.ToString());
     }

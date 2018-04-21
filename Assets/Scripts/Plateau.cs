@@ -22,7 +22,10 @@ public class Plateau
 
 	public Plateau(int cooX,int cooY,int taille,int Recources)
     {
-        //cree le plateau
+        CooLongitude = cooX;
+        CooLatitude = cooY;
+        Size = taille;
+        ChestProb = Recources;
     }
     
     //Ce plateau doit contenir toutes les informations necessaires pour construire la meme map plusieurs fois.

@@ -8,7 +8,7 @@ public class Exploration : MonoBehaviour
     //est-ce que explore est sur generator ou sur sous marin?
     //je vais avoir un sous marin controler?
 
-    // On compte un certain temps, ensuite, une ile est decouverte
+    
     //Explore cree la map
     //skip cherche un autre plateau
 
@@ -32,13 +32,21 @@ public class Exploration : MonoBehaviour
         //Comment je cree le visuel de la map??
         //canvas worldposition?
 
-    public int Longitude;//coox
-    public int Latitude;//cooy
+    public int Longitude=0;//coox
+    public int Latitude=0;//cooy
+    public int DestinationLongitude=0;
+    public int DestinationLatitude=0;
+
+    public Vector2 myPosition;
+    public Vector2 myDestination;
 
     public float T = 0;
     public float CountToNextIsland;
 
     MapGenerator MG;
+
+    public Canvas Map;
+    public Button MapSquare;
 
     public Text LongitudeText;
     public Text LatitudeText;
@@ -46,28 +54,96 @@ public class Exploration : MonoBehaviour
 
     public List<Plateau> Plateaux = new List<Plateau>();
     public Dictionary<string, Plateau> CooToPlateau = new Dictionary<string, Plateau>();
+    public Dictionary<string, Button> CootoMapSquare = new Dictionary<string, Button>();
 	void Start ()
     {
+        
         MG = FindObjectOfType<MapGenerator>();
+        Moving();
 	}
 	
-	
-
 	void Update ()
     {
 		
 	}
-
-    void Count()
+    
+    void MakeMapSquare(int coox,int cooy,int state)
     {
-        T += Time.deltaTime;
-        if(T>=CountToNextIsland)
+        
+        if(CootoMapSquare.ContainsKey(MG.makeCoo(coox,cooy))==false)
         {
-            CreatePlateau();
+            Button Ms = Instantiate(MapSquare, new Vector3(coox, cooy, 0), Quaternion.identity, Map.transform);
+            MapSquareInfo MSI = Ms.GetComponent<MapSquareInfo>();
+            MSI.cooX = coox;
+            MSI.cooY = cooy;
+            MSI.coo = MG.makeCoo(coox, cooy);
+            MSI.state = state;
+            CootoMapSquare.Add(MG.makeCoo(coox, cooy), Ms);
+        }
+        
+        
+    }
+    void MakeNeighborMapSquare(int coox,int cooy)
+    {
+        //cree de 1-4 voisins
+        //check si un mapsquare existe deja aux coordonnes coox+1,cooy la list+dictionaire
+        //si non: MakeMapsquare(newcoox,newcooy)
+        int NewCoox;
+        int NewCooy;
+
+        NewCoox = coox + 1;
+        NewCooy = cooy;
+        if(CootoMapSquare.ContainsKey(MG.makeCoo(NewCoox,NewCooy))==false)
+        {
+            print("t1");
+            MakeMapSquare(NewCoox, NewCooy,0);
+        }
+        NewCoox = coox - 1;
+        NewCooy = cooy;
+        if (CootoMapSquare.ContainsKey(MG.makeCoo(NewCoox, NewCooy)) == false)
+        {
+            print("t1");
+            MakeMapSquare(NewCoox, NewCooy,0);
+        }
+        NewCoox = coox;
+        NewCooy = cooy+1;
+        if (CootoMapSquare.ContainsKey(MG.makeCoo(NewCoox, NewCooy)) == false)
+        {
+            print("t1");
+            MakeMapSquare(NewCoox, NewCooy,0);
+        }
+        NewCoox = coox;
+        NewCooy = cooy-1;
+        if (CootoMapSquare.ContainsKey(MG.makeCoo(NewCoox, NewCooy)) == false)
+        {
+            print("t1");
+            MakeMapSquare(NewCoox, NewCooy,0);
         }
     }
-    void CreatePlateau()
-    {
+   public void Moving()
+   {
 
+        
+        Longitude = DestinationLongitude;
+        Latitude = DestinationLatitude;
+        LongitudeText.text = "Longitude: "+Longitude.ToString();
+        LatitudeText.text = "Latitude: "+Latitude.ToString();
+        MakeMapSquare(Longitude, Latitude,1);
+        MakeNeighborMapSquare(Longitude, Latitude);
+        exploring();
+    }
+    public void exploring()
+    {
+        MapSquareInfo InfoOfMySquare = CootoMapSquare[MG.makeCoo(Longitude, Latitude)].GetComponent<MapSquareInfo>();
+        if (InfoOfMySquare.state==0)
+        {
+            InfoOfMySquare.state = 1;
+            InfoOfMySquare.RollForPlateau();
+            InfoOfMySquare.definemycolor();
+        }
+    }
+    public void ShowHideMap()
+    {
+        Map.enabled=!Map.enabled;
     }
 }
