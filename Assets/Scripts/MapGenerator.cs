@@ -4,20 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 //TODO: Minimap
-//TODO: Controle de sousmarin
 //TODO: Base building
 //TODO: recolte de recources et systeme magasin
-//TODO: Make Mountains Walls
-//TODO: Mountain Maker Set Enable/Disable bouton
-//TODO: Corriger le noms des bool square par SoftLandscape
 //TODO: Decouverte des plataux sous marins et affichage des proprietes de l<ile decouverte.
 //TODO: Refaire le script de controle Camera
 //TODO: Raycast Player
 //TODO: Tunel,stalactites,gouffres,bords falaises,empirer le landscape
-
-    //TODO: placer les plateaux dans la map;
+//TODO: Retour sous marin et reconstruction de map
+//TODO: ajouter montagnes
    
-    // DES LISTES DE GAMEOBJECT POUR CHAQUE GAMEOBJECTS INSTANTIERS ET QUAND JE RECONSTRUIT LA MAP ET FAIT SIMPLEMENT LES REINSTANTIER
+    
 
 public class MapGenerator : MonoBehaviour {
     public GameObject EnemyPrefab;
