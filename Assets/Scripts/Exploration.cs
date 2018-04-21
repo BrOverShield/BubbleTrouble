@@ -29,6 +29,8 @@ public class Exploration : MonoBehaviour
         //quand on se deplace en mode sous-marin, on se deplace d<un point dans la map vers un autre point dans la map et on explore au fur et a mesure
         //la map est creer au depart et on l<explore? ou elle se cree au fur et a mesure?
         //systeme chaud froid scanneur pour chercher les plateaux
+        //Comment je cree le visuel de la map??
+        //canvas worldposition?
 
     public int Longitude;//coox
     public int Latitude;//cooy
