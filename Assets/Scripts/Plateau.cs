@@ -18,19 +18,13 @@ public class Plateau
 
     public string Coo;
 
-    public List<Chest> Chests = new List<Chest>();
-    public List<Mountain> Mountains = new List<Mountain>();
-    public List<ThuileInfo> ThuilesInfos = new List<ThuileInfo>();
+    public List<GameObject> Thuiles = new List<GameObject>();
 
-	public Plateau(int cooX,int cooY,int Taille,int ProbabiliteDeChest,int Type,bool PossedeMontagne,int NombreDeMontagnes,int AverageMountainsRadius,int AverageMountainsRange)
+	public Plateau(int cooX,int cooY,int taille,int Recources)
     {
         //cree le plateau
     }
-    public void MakeMountains()
-    {
-
-    }
+    
     //Ce plateau doit contenir toutes les informations necessaires pour construire la meme map plusieurs fois.
-    //liste de monttagnes et emplacements,radius,height; classes???
-    //liste des coffres et emplacements; classes???
+    //donc, list de gameobjects thuiles.
 }

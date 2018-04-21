@@ -15,8 +15,7 @@ using UnityEngine.UI;
 //TODO: Raycast Player
 //TODO: Tunel,stalactites,gouffres,bords falaises,empirer le landscape
 
-    //!!!!!!!!!! TODO: Je n<ajoute pas les informations du plateaux a la creation de la map mais a sa destruction; 
-    //lorsque je range la map je range tout dans des listes de thuileInfo et chestInfo!!!!!!!!!!!!! OU MIEUX!!!!
+   
     // DES LISTES DE GAMEOBJECT POUR CHAQUE GAMEOBJECTS INSTANTIERS ET QUAND JE RECONSTRUIT LA MAP ET FAIT SIMPLEMENT LES REINSTANTIER
 
 public class MapGenerator : MonoBehaviour {
@@ -53,40 +52,77 @@ public class MapGenerator : MonoBehaviour {
 
     public string MountainCoo = "10,10";
 
-    bool squarebool = false;
-    bool lanscapebool = true;
+    bool SoftLandscapebool = false;
+    bool HardLandscapebool = true;
     bool realsquarebool = false;
+    bool Stalagmitesbool = false;
 
     GameObject Thuile;
     GameObject P;
 
+    public Exploration exploration;
+
     Dictionary<string, ThuileInfo> CooToThuileInfo = new Dictionary<string, ThuileInfo>();
 
     List<ThuileInfo> ListeDeThuileInfo = new List<ThuileInfo>();
+    
 
     void Start()
     {
+        exploration = FindObjectOfType<Exploration>();
         //  GenerateMap(XSize,YSize,ProbOfChestatstart);
     }
     public void Landscapesoft()
     {
-        squarebool = true;
-        lanscapebool = false;
+        SoftLandscapebool = true;
+        HardLandscapebool = false;
         realsquarebool = false;
+        Stalagmitesbool = false;
     }
     public void landscapHard()
     {
-        squarebool = false;
-        lanscapebool = true;
+        SoftLandscapebool = false;
+        HardLandscapebool = true;
         realsquarebool = false;
+        Stalagmitesbool = false;
     }
     public void realquare()
     {
-        squarebool = false;
-        lanscapebool = false;
+        SoftLandscapebool = false;
+        HardLandscapebool = false;
         realsquarebool = true;
+        Stalagmitesbool = false;
     }
-
+    public void stalagmites()
+    {
+        SoftLandscapebool = false;
+        HardLandscapebool = false;
+        realsquarebool = false;
+        Stalagmitesbool = true;
+    }
+    public int RandomMapType()
+    {
+        return Random.Range(1, 5);
+    }
+    public void DefineTypeFromInt(int type)
+    {
+        if(type==1)
+        {
+            Landscapesoft();
+        }
+        if(type==2)
+        {
+            landscapHard();
+        }
+        if(type==3)
+        {
+            realquare();
+        }
+        if(type==4)
+        {
+            stalagmites();
+        }
+    }
     void Update()
     {
         XSize = (int)sliderx.value;
@@ -100,31 +136,48 @@ public class MapGenerator : MonoBehaviour {
     }
     public void OnClicStart()
     {
+  
+        GenerateMap(XSize, YSize, ProbOfChestatstart,RandomMapType());  
+        PlayerSet();
+        CameraSet();
+        Destroy(DestroyOnStartClic);
+        //GameObject T = Instantiate(mytimer);
+        //T.GetComponent<timer>().timerText = timertext;
 
-        GenerateMap(XSize, YSize, ProbOfChestatstart);
-        MakeMountainAt(CooToThuileInfo["10,10"], 5, 5);
-        Instantiate(lighte);
-        // Instantiate(lightsupport);
+
+    }
+    public void PlayerSet()
+    {
         P = Instantiate(Player, new Vector3(2, 2, 2), Quaternion.identity);
         P.GetComponent<PlayerController>().countText = counttext;
         P.GetComponent<PlayerController>().countPickUp = pickuptxt;
-        P.GetComponent<PlayerController>().TaillePlayerSlider = PlayerTailleSlider;
+    }
+    public void CameraSet()
+    {
+        // Instantiate(lightsupport);
+        Instantiate(lighte);
         Camera.main.GetComponent<camera>().player = P;
         Camera.main.GetComponent<camera>().isSubmarine = false;
         Camera.main.transform.position = new Vector3(2, 7, -1);
         Camera.main.GetComponent<camera>().offset = new Vector3(2, 7, -1) - P.transform.position;
-        GameObject T = Instantiate(mytimer);
-        T.GetComponent<timer>().timerText = timertext;
-        Destroy(DestroyOnStartClic);
-        //TODO: Ajouter cette map au plateaux
     }
-    public void GenerateMap(int mapLongeur, int mapLargeur, int ProbOfChest)
+    public void EditorThings()
     {
+        MakeMountainAt(CooToThuileInfo["10,10"], 5, 5);
+        P.GetComponent<PlayerController>().TaillePlayerSlider = PlayerTailleSlider;
+    }
+    public void GenerateMap(int mapLongeur, int mapLargeur, int ProbOfChest,int Type)
+    {
+        Plateau NewPlateau = new Plateau(exploration.Longitude,exploration.Latitude,mapLargeur,ProbOfChest);//cree le plateau
+        exploration.Plateaux.Add(NewPlateau);//ajoute a la liste de plateaux de exploration
+        exploration.CooToPlateau.Add(makeCoo(exploration.Longitude, exploration.Latitude), NewPlateau);//ajoute coordones au dictionaire coo to plateau
+
+        DefineTypeFromInt(Type);
         for (int x = 0; x < mapLargeur; x++)
         {
             for (int y = 0; y < mapLongeur; y++)
             {
-                if (squarebool || lanscapebool)
+                if (SoftLandscapebool || HardLandscapebool)
                 {
                     Thuile = Instantiate(thuilePrefab);
                 }
@@ -136,15 +189,20 @@ public class MapGenerator : MonoBehaviour {
                 ThuileInfo TI = Thuile.GetComponent<ThuileInfo>();
                 TI.cooX = x;
                 TI.cooY = y;
-                if (squarebool || realsquarebool)
+                if (SoftLandscapebool || realsquarebool)
                 {
                     TI.Hauteur = Random.Range(0f, 1f);
                     TI.multiplicator = 1f;
                 }
-                if (lanscapebool)
+                if (HardLandscapebool)
                 {
                     TI.Hauteur = Random.Range(0f, 4f);
                     TI.multiplicator = 0.25f;
+                }
+                if(Stalagmitesbool)
+                {
+                    TI.Hauteur = Random.Range(0f, 16f);
+                    TI.multiplicator = 1/16f;
                 }
 
                 TI.ChestPrefab = ChestPrefab;
@@ -152,14 +210,14 @@ public class MapGenerator : MonoBehaviour {
                 TI.pickupPrefab = PickupPrefab;
                 TI.hasPickup = generatingPickup(2);
                 makeWall(TI);
-                //makeMountainsWalls(TI);
                 CooToThuileInfo.Add(makeCoo(x, y), TI);
                 ListeDeThuileInfo.Add(TI);
-
+                NewPlateau.Thuiles.Add(Thuile);//ajoute les thuiles au plateau
 
             }
         }
     }
+    
     string makeCoo(int x, int y)
     {
         return (x.ToString() + "," + y.ToString());
@@ -172,7 +230,7 @@ public class MapGenerator : MonoBehaviour {
             {
                 info.Hauteur = 5;
             }
-            if (lanscapebool || squarebool)
+            if (HardLandscapebool || SoftLandscapebool)
             {
                 info.Hauteur = 10;
             }
@@ -223,11 +281,11 @@ public class MapGenerator : MonoBehaviour {
                 }
             }
         }
-        if (squarebool)
+        if (SoftLandscapebool)
         {
             info.gameObject.transform.localScale = new Vector3(Random.Range(0, MountainRadius), Random.Range(0, mountainHeight), Random.Range(0, MountainRadius));
         }
-        if(lanscapebool)
+        if(HardLandscapebool)
         {
             int roll = Random.Range(0, mountainHeight);
             info.gameObject.transform.localScale = new Vector3(roll, roll, roll);
