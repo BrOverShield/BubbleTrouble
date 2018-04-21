@@ -136,8 +136,9 @@ public class MapGenerator : MonoBehaviour {
     }
     public void OnClicStart()
     {
-  
-        GenerateMap(XSize, YSize, ProbOfChestatstart,RandomMapType());  
+        int Size = Random.Range(10, 200);
+        ProbOfChestatstart = Random.Range(1, 11);
+        GenerateMap(Size, Size, ProbOfChestatstart,RandomMapType());  
         PlayerSet();
         CameraSet();
         Destroy(DestroyOnStartClic);
@@ -177,7 +178,7 @@ public class MapGenerator : MonoBehaviour {
         {
             for (int y = 0; y < mapLongeur; y++)
             {
-                if (SoftLandscapebool || HardLandscapebool)
+                if (SoftLandscapebool || HardLandscapebool||Stalagmitesbool)
                 {
                     Thuile = Instantiate(thuilePrefab);
                 }
