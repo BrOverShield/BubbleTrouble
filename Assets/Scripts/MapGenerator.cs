@@ -102,7 +102,7 @@ public class MapGenerator : MonoBehaviour {
     }
     public int RandomMapType()
     {
-        return Random.Range(1, 5);
+        return Random.Range(1, 4);
     }
     public void DefineTypeFromInt(int type)
     {
