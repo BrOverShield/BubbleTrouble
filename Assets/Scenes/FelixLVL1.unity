@@ -6128,6 +6128,7 @@ MonoBehaviour:
   CurrentPosition: 0
   isExplored: 0
   HasPlateau: 0
+  CanLegalyMoveTo: 0
   Map: {fileID: 1038798833}
   PlayerPosition: {fileID: 2123474205}
   ExploredMat: {fileID: 2100000, guid: d753a7d36e9a2b342a63d6843e78064e, type: 2}
@@ -11924,6 +11925,8 @@ MonoBehaviour:
   ProfondeurText: {fileID: 382095152}
   InfoIleText: {fileID: 1922664996}
   ActionText: {fileID: 1104961851}
+  Voisins: []
+  AnciensVoisins: []
 --- !u!1 &1774169832
 GameObject:
   m_ObjectHideFlags: 0
@@ -13655,7 +13658,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startColor: {r: 0.75735295, g: 0, b: 0, a: 1}
-  endCoor: {r: 0.60294116, g: 0.12266735, b: 0.12266735, a: 0}
+  endCoor: {r: 0, g: 0, b: 0, a: 0}
+  mymat: {fileID: 2100000, guid: fb752a5929886de4699131cacacf9354, type: 2}
+  speed: 0
 --- !u!1 &2143983612
 GameObject:
   m_ObjectHideFlags: 0

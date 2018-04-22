@@ -20,13 +20,13 @@ public class playerPositionFlash : MonoBehaviour
     {
         if(startToend)
         {
-            speed -= 1f * Time.deltaTime;
+            speed -= 0.5f * Time.deltaTime;
         }
         if (endtostart)
         {
-            speed += 1f * Time.deltaTime;
+            speed += 0.5f * Time.deltaTime;
         }
-        if(speed>=255)
+        if(speed>=1)
         {
             endtostart = false;
             startToend = true;

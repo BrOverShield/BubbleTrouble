@@ -12,8 +12,7 @@ using UnityEngine.UI;
 //TODO: Tunel,stalactites,gouffres,bords falaises,empirer le landscape
 
 
-//TODO: PEUT SEULEMENT SE DEPLACER VERS UN VOISIN DE SA POSITION
-//TODO: VISUEL DE SA POSITION SUR LA CARTE
+
 //TODO: reconstruction de map
 //TODO: ajouter montagnes
     

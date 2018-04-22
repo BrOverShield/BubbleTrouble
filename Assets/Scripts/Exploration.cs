@@ -11,9 +11,7 @@ public class Exploration : MonoBehaviour
     
     
 
-    //Lerp de deplacement
-    //la minimap montrera une portion de la map
-    //systeme chaud froid scanneur pour chercher les plateaux
+    
         
 
     public int Longitude;//coox
@@ -47,12 +45,15 @@ public class Exploration : MonoBehaviour
     public Text ActionText;
 
     public List<Plateau> Plateaux = new List<Plateau>();
+    public List<MapSquareInfo> Voisins = new List<MapSquareInfo>();
+    public List<MapSquareInfo> AnciensVoisins = new List<MapSquareInfo>();
     public Dictionary<string, Plateau> CooToPlateau = new Dictionary<string,Plateau>();
     public Dictionary<string, Button> CootoMapSquare = new Dictionary<string, Button>();
 	void Start ()
     {
         
         MG = FindObjectOfType<MapGenerator>();
+        MapSquare.GetComponent<MapSquareInfo>().CanLegalyMoveTo = true;
         Moving();
 	}
 	
@@ -132,6 +133,7 @@ public class Exploration : MonoBehaviour
          
             MakeMapSquare(NewCoox, NewCooy,0);
         }
+        Voisins.Add(CootoMapSquare[MG.makeCoo(NewCoox, NewCooy)].GetComponent<MapSquareInfo>());    
         NewCoox = coox - 1;
         NewCooy = cooy;
         if (CootoMapSquare.ContainsKey(MG.makeCoo(NewCoox, NewCooy)) == false)
@@ -139,6 +141,7 @@ public class Exploration : MonoBehaviour
    
             MakeMapSquare(NewCoox, NewCooy,0);
         }
+        Voisins.Add(CootoMapSquare[MG.makeCoo(NewCoox, NewCooy)].GetComponent<MapSquareInfo>());
         NewCoox = coox;
         NewCooy = cooy+1;
         if (CootoMapSquare.ContainsKey(MG.makeCoo(NewCoox, NewCooy)) == false)
@@ -146,6 +149,7 @@ public class Exploration : MonoBehaviour
         
             MakeMapSquare(NewCoox, NewCooy,0);
         }
+        Voisins.Add(CootoMapSquare[MG.makeCoo(NewCoox, NewCooy)].GetComponent<MapSquareInfo>());
         NewCoox = coox;
         NewCooy = cooy-1;
         if (CootoMapSquare.ContainsKey(MG.makeCoo(NewCoox, NewCooy)) == false)
@@ -153,6 +157,8 @@ public class Exploration : MonoBehaviour
            
             MakeMapSquare(NewCoox, NewCooy,0);
         }
+        Voisins.Add(CootoMapSquare[MG.makeCoo(NewCoox, NewCooy)].GetComponent<MapSquareInfo>());
+        
     }
     void Update()
     {
@@ -169,7 +175,13 @@ public class Exploration : MonoBehaviour
              LastPosition = InfoOfMySquare;
              LastPosition.DefineMyposition();
             }
-            
+         foreach(MapSquareInfo ov in AnciensVoisins)
+        {
+            ov.CanLegalyMoveTo = false;
+            //AnciensVoisins.Remove(ov);
+           
+        }
+        AnciensVoisins.Clear();
             Longitude = DestinationLongitude;
             Latitude = DestinationLatitude;
             coo = MG.makeCoo(Longitude, Latitude);
@@ -178,7 +190,15 @@ public class Exploration : MonoBehaviour
             MakeMapSquare(Longitude, Latitude, 1);
             MakeNeighborMapSquare(Longitude, Latitude);
             exploring();
-        
+        foreach(MapSquareInfo msi in Voisins)
+        {
+            
+            msi.CanLegalyMoveTo = true;
+            AnciensVoisins.Add(msi);
+            //Voisins.Remove(msi);
+            
+        }
+        Voisins.Clear();
         
     }
     public void exploring()

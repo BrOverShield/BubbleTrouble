@@ -17,6 +17,7 @@ public class MapSquareInfo : MonoBehaviour
     public bool CurrentPosition = false;
     public bool isExplored = false;
     public bool HasPlateau = false;
+    public bool CanLegalyMoveTo = false;
 
     public Plateau myPlateau;
 
@@ -119,7 +120,7 @@ public class MapSquareInfo : MonoBehaviour
     
 	public void movingToHere()
     {
-        if(ClicNumber==2)
+        if(ClicNumber==2&&CanLegalyMoveTo)
         {
             E.DestinationLongitude = cooX;
             E.DestinationLatitude = cooY;
