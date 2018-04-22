@@ -14,7 +14,8 @@ public class Plateau
     public int MountainsRadiusRange;
     public int MountainsHeightRange;
     public int Danger;
-    
+    public int MapId;
+
     public bool HasMountains;
 
     public string Coo;
@@ -22,7 +23,7 @@ public class Plateau
 
     public List<GameObject> Thuiles = new List<GameObject>();
 
-	public Plateau(int cooX,int cooY,int taille,int Recources,int type,int danger)
+	public Plateau(int cooX,int cooY,int taille,int Recources,int type,int danger,int mapid)
     {
         CooLongitude = cooX;
         CooLatitude = cooY;
@@ -32,6 +33,7 @@ public class Plateau
         Type = type;
         TypeName = DefineTypeNameFromInt(type);
         Danger = danger;
+        MapId = mapid;
     }
     public string makeCoo(int x, int y)
     {

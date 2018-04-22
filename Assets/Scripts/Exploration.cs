@@ -35,6 +35,8 @@ public class Exploration : MonoBehaviour
 
     public Canvas Map;
 
+    public Image PlayerPosition;
+
     public Button MapSquare;
     public Button ExploreButton;
 
@@ -96,8 +98,12 @@ public class Exploration : MonoBehaviour
     {
         SubmarineMode.SetActive(false);
         LoadingScreen.SetActive(true);
-        GameObject Dogtsm = Instantiate(MG.DestroyOnGotoSubMarinePrefab);
-        MG.DestroyOnGotoSubMarine = Dogtsm;
+        if(MG.IsDiscoverd==false)
+        {
+            GameObject Dogtsm = Instantiate(MG.DestroyOnGotoSubMarinePrefab);
+            MG.DestroyOnGotoSubMarine = Dogtsm;
+        }
+              
         yield return new WaitForSeconds(1f);
         MG.OnClicStart();
         LoadingScreen.SetActive(false);
@@ -113,8 +119,10 @@ public class Exploration : MonoBehaviour
     {
         SubmarineMode.SetActive(true);
         ExplorerMode.SetActive(false);
-        Destroy(MG.DestroyOnGotoSubMarine);
+        MG.DestroyOnGotoSubMarine.SetActive(false);
         Destroy(MG.P);
+        Camera.main.transform.position = new Vector3(0.08f, 1.39f, -2.5f);
+        Camera.main.transform.rotation = Quaternion.Euler(30, 0, 0);
     }
         
     
@@ -190,7 +198,8 @@ public class Exploration : MonoBehaviour
             MakeMapSquare(Longitude, Latitude, 1);
             MakeNeighborMapSquare(Longitude, Latitude);
             exploring();
-        foreach(MapSquareInfo msi in Voisins)
+        
+        foreach (MapSquareInfo msi in Voisins)
         {
             
             msi.CanLegalyMoveTo = true;
@@ -210,6 +219,7 @@ public class Exploration : MonoBehaviour
             InfoOfMySquare.RollForPlateau();
             InfoOfMySquare.definemycolor();
             InfoOfMySquare.DefineMyposition();
+            //InfoOfMySquare.ShowPlateau();
         }
         
     }
@@ -217,5 +227,6 @@ public class Exploration : MonoBehaviour
     public void ShowHideMap()
     {
         Map.enabled=!Map.enabled;
+        PlayerPosition.enabled = !PlayerPosition.enabled;
     }
 }

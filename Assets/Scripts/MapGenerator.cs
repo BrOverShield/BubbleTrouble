@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-//TODO: Minimap
+
 //TODO: Base building
 //TODO: recolte de recources et systeme magasin
 
@@ -11,11 +11,8 @@ using UnityEngine.UI;
 //TODO: Raycast Player
 //TODO: Tunel,stalactites,gouffres,bords falaises,empirer le landscape
 
-
-
-//TODO: reconstruction de map
 //TODO: ajouter montagnes
-//TODO: activation de bouton explorer si je suis aux meme coordones que le plateau seulement
+
     
 
 public class MapGenerator : MonoBehaviour {
@@ -46,7 +43,7 @@ public class MapGenerator : MonoBehaviour {
 
     public InputField MountainCooInputField;
 
-    int MapId = 0;
+    public int MapId = 0;
     public int XSize = 10;
     public int YSize = 10;
     public int ProbOfChestatstart = 10;
@@ -70,6 +67,7 @@ public class MapGenerator : MonoBehaviour {
     public Exploration exploration;
 
     Dictionary<string, ThuileInfo> CooToThuileInfo = new Dictionary<string, ThuileInfo>();
+    public Dictionary<int, GameObject> MapIdToDestroyOnGoToSubmarine = new Dictionary<int, GameObject>();
 
     List<ThuileInfo> ListeDeThuileInfo = new List<ThuileInfo>();
     
@@ -176,7 +174,7 @@ public class MapGenerator : MonoBehaviour {
     public void CameraSet()
     {
         // Instantiate(lightsupport);
-        Instantiate(lighte);
+        Instantiate(lighte,DestroyOnGotoSubMarine.transform);
         Camera.main.GetComponent<camera>().player = P;
         Camera.main.GetComponent<camera>().isSubmarine = false;
         Camera.main.transform.position = new Vector3(2, 7, -1);
@@ -187,19 +185,22 @@ public class MapGenerator : MonoBehaviour {
         MakeMountainAt(CooToThuileInfo["10,10"], 5, 5);
         P.GetComponent<PlayerController>().TaillePlayerSlider = PlayerTailleSlider;
     }
+    
     public void RegenerateMap(Plateau plateau)
     {
-
+        MapIdToDestroyOnGoToSubmarine[plateau.MapId].SetActive(true);
+        GameObject Dogtsm = MapIdToDestroyOnGoToSubmarine[plateau.MapId];
+        DestroyOnGotoSubMarine = Dogtsm;
     }
     public Plateau NewPlateau;
     public void GenerateMap(int mapLongeur, int mapLargeur, int ProbOfChest,int Type,int Dangerzone)
     {
         MapId += 1;
-        NewPlateau = new Plateau(exploration.Longitude,exploration.Latitude,mapLargeur,ProbOfChest,Type,Dangerzone);//cree le plateau
+        NewPlateau = new Plateau(exploration.Longitude,exploration.Latitude,mapLargeur,ProbOfChest,Type,Dangerzone,MapId);//cree le plateau
         exploration.Plateaux.Add(NewPlateau);//ajoute a la liste de plateaux de exploration
         exploration.CooToPlateau.Add(makeCoo(exploration.Longitude, exploration.Latitude), NewPlateau);//ajoute coordones au dictionaire coo to plateau
+        MapIdToDestroyOnGoToSubmarine.Add(MapId,DestroyOnGotoSubMarine);
 
-     
         DefineTypeFromInt(Type);
         for (int x = 0; x < mapLargeur; x++)
         {
@@ -238,9 +239,9 @@ public class MapGenerator : MonoBehaviour {
                 TI.pickupPrefab = PickupPrefab;
                 TI.hasPickup = generatingPickup(2);
                 makeWall(TI);
-                CooToThuileInfo.Add(MapId+makeCoo(x, y), TI);
+                //CooToThuileInfo.Add(MapId+makeCoo(x, y), TI);
                 //ListeDeThuileInfo.Add(TI);
-                NewPlateau.Thuiles.Add(Thuile);//ajoute les thuiles au plateau
+                //NewPlateau.Thuiles.Add(Thuile);//ajoute les thuiles au plateau
 
             }
         }
@@ -404,7 +405,7 @@ public class MapGenerator : MonoBehaviour {
                 {
                     SpawnLocation = new Vector3(Random.Range(0, XSize), 0.5f, Random.Range(0, YSize));
                 }
-                GameObject E=Instantiate(EnemyPrefab, SpawnLocation, Quaternion.identity);
+                GameObject E=Instantiate(EnemyPrefab, SpawnLocation, Quaternion.identity,DestroyOnGotoSubMarine.transform);
                 E.GetComponent<enemyBehavior>().Target = P;
                 print("EnemyGenerated");
                 T1 = 0f;

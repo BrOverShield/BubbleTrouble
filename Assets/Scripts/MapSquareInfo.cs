@@ -83,22 +83,35 @@ public class MapSquareInfo : MonoBehaviour
         if (myPlateau!=null)
         {
             GM.IsDiscoverd = true;
-            E.InfoIleText.text = "Info: " + "\n" + "coordones: "+myPlateau.Coo + "\n" + "Taille: "+myPlateau.Size + "\n" + "Type: "+myPlateau.TypeName + "\n" + "Montagnes: " + "\n" + "Ressources: "+myPlateau.ChestProb + "\n" + "Danger: "+myPlateau.Danger;
-            E.ExploreButton.GetComponent<Image>().material.color = Blue;
+            E.InfoIleText.text = "Info: " + "\n" + "coordones: "+myPlateau.Coo + "\n" + "Taille: "+myPlateau.Size + "\n" + "Type: "+myPlateau.TypeName + "\n" + "Montagnes: " + "\n" + "Ressources: "+myPlateau.ChestProb + "\n" + "Danger: "+myPlateau.Danger;        
+            if (E.coo == coo)
+            {
+                E.ExploreButton.enabled = true;
+                E.ExploreButton.GetComponent<Image>().material.color = Blue;
+            }
         }
         if(myPlateau==null)
         {
             if(state==2)
             {
                 GM.IsDiscoverd = false;
-                E.InfoIleText.text = coo + "\n" + "Info:" + "\n" + "Plateau Innexplore";
-                E.ExploreButton.enabled = true;
-                E.ExploreButton.GetComponent<Image>().material.color = Green;
+                E.InfoIleText.text = "Info:" + "\n" + "coordones: " +coo + "\n" + "Plateau Innexplore";
+                if(E.coo==coo)
+                {
+                    E.ExploreButton.enabled = true;
+                    E.ExploreButton.GetComponent<Image>().material.color = Green;
+                }
+                if (E.coo != coo)
+                {
+                    E.ExploreButton.enabled =false;
+                    E.ExploreButton.GetComponent<Image>().material.color = Red;
+                }
+
             }
             if(state==1)
             {
                 GM.IsDiscoverd = false;
-                E.InfoIleText.text = coo + "\n" + "Info:" + "\n" + "Que de l'eau, aucun plateau par ici";
+                E.InfoIleText.text = "Info:" + "\n" + "coordones: " + coo + "\n" + "Que de l'eau, aucun plateau par ici";
                 E.ExploreButton.enabled = false;
                 E.ExploreButton.GetComponent<Image>().material.color=Red;
                 E.ActionText.text = "En recherche de plateau sous-marin";
@@ -106,7 +119,7 @@ public class MapSquareInfo : MonoBehaviour
             if (state == 0)
             {
                 GM.IsDiscoverd = false;
-                E.InfoIleText.text = coo + "\n" + "Info:" + "\n" + "Cette partie de l'ocean est innexplore";
+                E.InfoIleText.text = "Info:" + "\n" + "coordones: " + coo + "\n" + "Cette partie de l'ocean est innexplore";
                 E.ExploreButton.enabled = false;
                 E.ExploreButton.GetComponent<Image>().material.color = Red;
                 E.ActionText.text = "En recherche de plateau sous-marin";
