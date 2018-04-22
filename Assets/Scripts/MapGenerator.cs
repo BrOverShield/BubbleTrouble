@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 //TODO: reconstruction de map
 //TODO: ajouter montagnes
-    
+//TODO: activation de bouton explorer si je suis aux meme coordones que le plateau seulement
     
 
 public class MapGenerator : MonoBehaviour {
