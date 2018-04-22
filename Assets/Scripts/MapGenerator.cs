@@ -11,7 +11,9 @@ using UnityEngine.UI;
 //TODO: Raycast Player
 //TODO: Tunel,stalactites,gouffres,bords falaises,empirer le landscape
 
-
+//TODO: CLIC DEUX FOIS POUR SE DEPLACER
+//TODO: PEUT SEULEMENT SE DEPLACER VERS UN VOISIN DE SA POSITION
+//TODO: VISUEL DE SA POSITION SUR LA CARTE
 //TODO: Retour sous marin et reconstruction de map
 //TODO: ajouter montagnes
     
@@ -26,6 +28,7 @@ public class MapGenerator : MonoBehaviour {
     public GameObject Player;
     public GameObject PickupPrefab;
     public GameObject DestroyOnStartClic;
+    public GameObject DestroyOnGotoSubMarine;
 
     public Text timertext;
     public Text counttext;
@@ -58,9 +61,10 @@ public class MapGenerator : MonoBehaviour {
     bool realsquarebool = false;
     bool Stalagmitesbool = false;
     public bool IsDiscoverd = false;
+    
 
     GameObject Thuile;
-    GameObject P;
+    public GameObject P;
 
     public Exploration exploration;
 
@@ -192,12 +196,8 @@ public class MapGenerator : MonoBehaviour {
         NewPlateau = new Plateau(exploration.Longitude,exploration.Latitude,mapLargeur,ProbOfChest,Type,Dangerzone);//cree le plateau
         exploration.Plateaux.Add(NewPlateau);//ajoute a la liste de plateaux de exploration
         exploration.CooToPlateau.Add(makeCoo(exploration.Longitude, exploration.Latitude), NewPlateau);//ajoute coordones au dictionaire coo to plateau
-        print("Je viens d<ajouter le plateau au dictionaire man aux coordones suivantes : "+makeCoo(exploration.Longitude,exploration.Latitude));
-        print("Il est fucking la: "+ exploration.CooToPlateau[makeCoo(exploration.Longitude,exploration.Latitude)]);
-        if(NewPlateau!=null)
-        {
-            print("NewPlateau nest pas null");
-        }
+
+     
         DefineTypeFromInt(Type);
         for (int x = 0; x < mapLargeur; x++)
         {
@@ -205,11 +205,11 @@ public class MapGenerator : MonoBehaviour {
             {
                 if (SoftLandscapebool || HardLandscapebool||Stalagmitesbool)
                 {
-                    Thuile = Instantiate(thuilePrefab,this.transform);
+                    Thuile = Instantiate(thuilePrefab,DestroyOnGotoSubMarine.transform);
                 }
                 if (realsquarebool)
                 {
-                    Thuile = Instantiate(squareThuile,this.transform);
+                    Thuile = Instantiate(squareThuile,DestroyOnGotoSubMarine.transform);
                 }
 
                 ThuileInfo TI = Thuile.GetComponent<ThuileInfo>();

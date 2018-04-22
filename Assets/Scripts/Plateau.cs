@@ -26,11 +26,16 @@ public class Plateau
     {
         CooLongitude = cooX;
         CooLatitude = cooY;
+        Coo = makeCoo(cooX, cooY);
         Size = taille;
         ChestProb = Recources;
         Type = type;
         TypeName = DefineTypeNameFromInt(type);
         Danger = danger;
+    }
+    public string makeCoo(int x, int y)
+    {
+        return (x.ToString() + "," + y.ToString());
     }
     public string DefineTypeNameFromInt(int n)
     {

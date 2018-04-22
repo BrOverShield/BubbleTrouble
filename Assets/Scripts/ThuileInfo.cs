@@ -13,12 +13,13 @@ public class ThuileInfo : MonoBehaviour {
     public bool HasTrap;
     public GameObject ChestPrefab;
     public GameObject pickupPrefab;
-
+    public MapGenerator MG;
     public bool hasPickup;
 	void Start ()
     {
-        
+        MG = FindObjectOfType<MapGenerator>();
         updateme();
+        
 	}
 	
 	
@@ -33,12 +34,12 @@ public class ThuileInfo : MonoBehaviour {
         this.transform.localScale = new Vector3(1,Hauteur,1);
         if(HasChest)
         {
-            GameObject Chest = Instantiate(ChestPrefab, new Vector3(cooX, Hauteur*multiplicator, cooY),Quaternion.identity);
+            GameObject Chest = Instantiate(ChestPrefab, new Vector3(cooX, Hauteur*multiplicator, cooY),Quaternion.identity,MG.DestroyOnGotoSubMarine.transform);
             
         }
         if(hasPickup)
         {
-            GameObject pickup = Instantiate(pickupPrefab, new Vector3(cooX, Hauteur*multiplicator, cooY),Quaternion.identity);
+            GameObject pickup = Instantiate(pickupPrefab, new Vector3(cooX, Hauteur*multiplicator, cooY),Quaternion.identity, MG.DestroyOnGotoSubMarine.transform);
         }
     }
     public void square()

@@ -20,16 +20,22 @@ public class Exploration : MonoBehaviour
     public int Latitude;//cooy
     public int DestinationLongitude=0;
     public int DestinationLatitude=0;
+    public string coo;
+    
+    
 
     public Vector2 myPosition;
     public Vector2 myDestination;
 
-    public float T = 0;
-    public float CountToNextIsland;
+    public GameObject SubmarineMode;
+    public GameObject ExplorerMode;
 
     MapGenerator MG;
 
+    Plateau myPlateau;
+
     public Canvas Map;
+
     public Button MapSquare;
     public Button ExploreButton;
 
@@ -49,10 +55,7 @@ public class Exploration : MonoBehaviour
         Moving();
 	}
 	
-	void Update ()
-    {
-		
-	}
+	
     
     void MakeMapSquare(int coox,int cooy,int state)
     {
@@ -70,6 +73,39 @@ public class Exploration : MonoBehaviour
         
         
     }
+    public void ShowPlateau()
+    {
+        if (CooToPlateau.ContainsKey(MG.makeCoo(Longitude, Latitude)))
+        {
+
+            myPlateau = CooToPlateau[MG.makeCoo(Longitude, Latitude)];
+        }
+        InfoIleText.text = "";
+
+        if (myPlateau != null)
+        {
+            
+            InfoIleText.text = "Info: " + "\n" + "coordones: " + myPlateau.Coo + "\n" + "Taille: " + myPlateau.Size + "\n" + "Type: " + myPlateau.TypeName + "\n" + "Montagnes: " + "\n" + "Ressources: " + myPlateau.ChestProb + "\n" + "Danger: " + myPlateau.Danger;
+            
+        }
+        
+    }
+    public void GotoExplorer()
+    {
+        SubmarineMode.SetActive(false);
+        ExplorerMode.SetActive(true);
+        GameObject Dogtsm=Instantiate(MG.DestroyOnGotoSubMarine);
+        MG.DestroyOnGotoSubMarine = Dogtsm;
+    }
+    public void GotoSubmarine()
+    {
+        SubmarineMode.SetActive(true);
+        ExplorerMode.SetActive(false);
+        Destroy(MG.DestroyOnGotoSubMarine);
+        Destroy(MG.P);
+    }
+        
+    
     void MakeNeighborMapSquare(int coox,int cooy)
     {
         //cree de 1-4 voisins
@@ -82,42 +118,52 @@ public class Exploration : MonoBehaviour
         NewCooy = cooy;
         if(CootoMapSquare.ContainsKey(MG.makeCoo(NewCoox,NewCooy))==false)
         {
-            print("t1");
+         
             MakeMapSquare(NewCoox, NewCooy,0);
         }
         NewCoox = coox - 1;
         NewCooy = cooy;
         if (CootoMapSquare.ContainsKey(MG.makeCoo(NewCoox, NewCooy)) == false)
         {
-            print("t1");
+   
             MakeMapSquare(NewCoox, NewCooy,0);
         }
         NewCoox = coox;
         NewCooy = cooy+1;
         if (CootoMapSquare.ContainsKey(MG.makeCoo(NewCoox, NewCooy)) == false)
         {
-            print("t1");
+        
             MakeMapSquare(NewCoox, NewCooy,0);
         }
         NewCoox = coox;
         NewCooy = cooy-1;
         if (CootoMapSquare.ContainsKey(MG.makeCoo(NewCoox, NewCooy)) == false)
         {
-            print("t1");
+           
             MakeMapSquare(NewCoox, NewCooy,0);
         }
     }
-   public void Moving()
-   {
-
+    void Update()
+    {
         
-        Longitude = DestinationLongitude;
-        Latitude = DestinationLatitude;
-        LongitudeText.text = "Longitude: "+Longitude.ToString();
-        LatitudeText.text = "Latitude: "+Latitude.ToString();
-        MakeMapSquare(Longitude, Latitude,1);
-        MakeNeighborMapSquare(Longitude, Latitude);
-        exploring();
+        
+        
+    }
+   
+    public void Moving()
+   {
+        
+        
+            Longitude = DestinationLongitude;
+            Latitude = DestinationLatitude;
+        coo = MG.makeCoo(Longitude, Latitude);
+            LongitudeText.text = "Longitude: " + Longitude.ToString();
+            LatitudeText.text = "Latitude: " + Latitude.ToString();
+            MakeMapSquare(Longitude, Latitude, 1);
+            MakeNeighborMapSquare(Longitude, Latitude);
+            exploring();
+        
+        
     }
     public void exploring()
     {

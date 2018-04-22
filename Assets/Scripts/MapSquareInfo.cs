@@ -9,7 +9,9 @@ public class MapSquareInfo : MonoBehaviour
     public int cooY;
     public int state;
     public int probforplateau=10;
+    public int ClicNumber=1;
 
+    public float T1 = 0f;
     public string coo;
  
     public bool CurrentPosition = false;
@@ -46,8 +48,27 @@ public class MapSquareInfo : MonoBehaviour
         this.GetComponentInChildren<Text>().text = GM.makeCoo(cooX, cooY);
         RollForPlateau();
         definemycolor();
-        
+        ShowPlateau();
 	}
+    public void clicing()
+    {
+        T1 = 0f;
+        if (ClicNumber == 0)
+        {
+            ClicNumber += 1;
+            return;
+        }
+        if (ClicNumber == 1)
+        {
+            ClicNumber += 1;
+            return;
+        }
+        if (ClicNumber == 2)
+        {
+            ClicNumber = 1;
+            return;
+        }
+    }
     public void ShowPlateau()
     {
         if (E.CooToPlateau.ContainsKey(GM.makeCoo(cooX, cooY)))
@@ -60,7 +81,7 @@ public class MapSquareInfo : MonoBehaviour
         if (myPlateau!=null)
         {
             GM.IsDiscoverd = true;
-            E.InfoIleText.text = coo + "\n" + "Info: " + "\n" + "coordones: "+myPlateau.Coo + "\n" + "Taille: "+myPlateau.Size + "\n" + "Type: "+myPlateau.TypeName + "\n" + "Montagnes: " + "\n" + "Ressources: "+myPlateau.ChestProb + "\n" + "Danger: "+myPlateau.Danger;
+            E.InfoIleText.text = "Info: " + "\n" + "coordones: "+myPlateau.Coo + "\n" + "Taille: "+myPlateau.Size + "\n" + "Type: "+myPlateau.TypeName + "\n" + "Montagnes: " + "\n" + "Ressources: "+myPlateau.ChestProb + "\n" + "Danger: "+myPlateau.Danger;
             E.ExploreButton.GetComponent<Image>().material.color = Blue;
         }
         if(myPlateau==null)
@@ -97,8 +118,12 @@ public class MapSquareInfo : MonoBehaviour
     
 	public void movingToHere()
     {
-        E.DestinationLongitude = cooX;
-        E.DestinationLatitude = cooY;
+        if(ClicNumber==2)
+        {
+            E.DestinationLongitude = cooX;
+            E.DestinationLatitude = cooY;
+
+        }
 
     }
     
@@ -132,6 +157,14 @@ public class MapSquareInfo : MonoBehaviour
     }
 	void Update ()
     {
-		
+        if(T1<=2f)
+        {
+            T1 += Time.deltaTime;
+        }
+        if(T1>2f)
+        {
+            ClicNumber = 1;
+        }
+        
 	}
 }
