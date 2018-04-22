@@ -29,6 +29,7 @@ public class Exploration : MonoBehaviour
 
     public GameObject SubmarineMode;
     public GameObject ExplorerMode;
+    public GameObject LoadingScreen;
 
     MapGenerator MG;
 
@@ -90,12 +91,22 @@ public class Exploration : MonoBehaviour
         }
         
     }
-    public void GotoExplorer()
+    IEnumerator loadingscreenGotoExplorer()
     {
         SubmarineMode.SetActive(false);
-        ExplorerMode.SetActive(true);
-        GameObject Dogtsm=Instantiate(MG.DestroyOnGotoSubMarine);
+        LoadingScreen.SetActive(true);
+        GameObject Dogtsm = Instantiate(MG.DestroyOnGotoSubMarinePrefab);
         MG.DestroyOnGotoSubMarine = Dogtsm;
+        yield return new WaitForSeconds(1f);
+        MG.OnClicStart();
+        LoadingScreen.SetActive(false);
+        ExplorerMode.SetActive(true);
+        
+
+    }
+    public void GotoExplorer()
+    {
+        StartCoroutine(loadingscreenGotoExplorer());
     }
     public void GotoSubmarine()
     {
@@ -149,14 +160,19 @@ public class Exploration : MonoBehaviour
         
         
     }
-   
+    MapSquareInfo InfoOfMySquare;
+    MapSquareInfo LastPosition;
     public void Moving()
    {
-        
-        
+            if(InfoOfMySquare!=null)
+            {
+             LastPosition = InfoOfMySquare;
+             LastPosition.DefineMyposition();
+            }
+            
             Longitude = DestinationLongitude;
             Latitude = DestinationLatitude;
-        coo = MG.makeCoo(Longitude, Latitude);
+            coo = MG.makeCoo(Longitude, Latitude);
             LongitudeText.text = "Longitude: " + Longitude.ToString();
             LatitudeText.text = "Latitude: " + Latitude.ToString();
             MakeMapSquare(Longitude, Latitude, 1);
@@ -167,13 +183,15 @@ public class Exploration : MonoBehaviour
     }
     public void exploring()
     {
-        MapSquareInfo InfoOfMySquare = CootoMapSquare[MG.makeCoo(Longitude, Latitude)].GetComponent<MapSquareInfo>();
+        InfoOfMySquare = CootoMapSquare[MG.makeCoo(Longitude, Latitude)].GetComponent<MapSquareInfo>();
         if (InfoOfMySquare.state==0)
         {
             InfoOfMySquare.state = 1;
             InfoOfMySquare.RollForPlateau();
             InfoOfMySquare.definemycolor();
+            InfoOfMySquare.DefineMyposition();
         }
+        
     }
     
     public void ShowHideMap()

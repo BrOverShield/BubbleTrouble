@@ -21,7 +21,8 @@ public class MapSquareInfo : MonoBehaviour
     public Plateau myPlateau;
 
     public Canvas Map;
-    
+
+    public Image PlayerPosition;
     
     public Material ExploredMat;
     public Material UnexploredMat;
@@ -155,6 +156,24 @@ public class MapSquareInfo : MonoBehaviour
 
         }
     }
+    Image PP;
+    public void DefineMyposition()
+    {
+        
+        if (this.coo==E.coo)
+        {
+           CurrentPosition = true;
+            PlayerPosition.transform.position = this.transform.position;
+        }
+        else if(this.coo != E.coo)
+        {
+            
+            CurrentPosition = false;
+            
+        }
+        
+    }
+    
 	void Update ()
     {
         if(T1<=2f)
@@ -166,5 +185,6 @@ public class MapSquareInfo : MonoBehaviour
             ClicNumber = 1;
         }
         
-	}
+
+    }
 }

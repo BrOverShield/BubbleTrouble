@@ -29,6 +29,7 @@ public class MapGenerator : MonoBehaviour {
     public GameObject PickupPrefab;
     public GameObject DestroyOnStartClic;
     public GameObject DestroyOnGotoSubMarine;
+    public GameObject DestroyOnGotoSubMarinePrefab;
 
     public Text timertext;
     public Text counttext;
@@ -46,6 +47,7 @@ public class MapGenerator : MonoBehaviour {
 
     public InputField MountainCooInputField;
 
+    int MapId = 0;
     public int XSize = 10;
     public int YSize = 10;
     public int ProbOfChestatstart = 10;
@@ -193,6 +195,7 @@ public class MapGenerator : MonoBehaviour {
     public Plateau NewPlateau;
     public void GenerateMap(int mapLongeur, int mapLargeur, int ProbOfChest,int Type,int Dangerzone)
     {
+        MapId += 1;
         NewPlateau = new Plateau(exploration.Longitude,exploration.Latitude,mapLargeur,ProbOfChest,Type,Dangerzone);//cree le plateau
         exploration.Plateaux.Add(NewPlateau);//ajoute a la liste de plateaux de exploration
         exploration.CooToPlateau.Add(makeCoo(exploration.Longitude, exploration.Latitude), NewPlateau);//ajoute coordones au dictionaire coo to plateau
@@ -236,8 +239,8 @@ public class MapGenerator : MonoBehaviour {
                 TI.pickupPrefab = PickupPrefab;
                 TI.hasPickup = generatingPickup(2);
                 makeWall(TI);
-                CooToThuileInfo.Add(makeCoo(x, y), TI);
-                ListeDeThuileInfo.Add(TI);
+                CooToThuileInfo.Add(MapId+makeCoo(x, y), TI);
+                //ListeDeThuileInfo.Add(TI);
                 NewPlateau.Thuiles.Add(Thuile);//ajoute les thuiles au plateau
 
             }
