@@ -11,10 +11,10 @@ using UnityEngine.UI;
 //TODO: Raycast Player
 //TODO: Tunel,stalactites,gouffres,bords falaises,empirer le landscape
 
-//TODO: CLIC DEUX FOIS POUR SE DEPLACER
+
 //TODO: PEUT SEULEMENT SE DEPLACER VERS UN VOISIN DE SA POSITION
 //TODO: VISUEL DE SA POSITION SUR LA CARTE
-//TODO: Retour sous marin et reconstruction de map
+//TODO: reconstruction de map
 //TODO: ajouter montagnes
     
     
